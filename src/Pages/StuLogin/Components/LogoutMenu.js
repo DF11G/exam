@@ -6,12 +6,11 @@ import { UserAddOutlined, FileAddOutlined, IdcardOutlined } from '@ant-design/ic
 
 const { SubMenu } = Menu;
 
-class LoginMenu extends Component {
+class LogoutMenu extends Component {
     constructor(props) {
         super(props)
         this.handleRegister = this.handleRegister.bind(this)
         this.handleLogin = this.handleLogin.bind(this)
-        this.handleGetPaper = this.handleGetPaper.bind(this)
     }
 
     state = {
@@ -26,10 +25,6 @@ class LoginMenu extends Component {
         this.props.history.push('/register')
     }
 
-    handleGetPaper() {
-        this.props.history.push('/getPaper')
-    }
-
     render() {
         const { current } = this.state;
         return (
@@ -37,16 +32,17 @@ class LoginMenu extends Component {
                 theme="dark"
                 mode="horizontal"
                 defaultSelectedKeys={['2']}
+                history={this.props.history}
             >
-                <Menu.Item onClick={this.handleLogin} key="logout" icon={<IdcardOutlined />}>
-                    登出
+                <Menu.Item onClick={this.handleLogin} key="login" icon={<IdcardOutlined />}>
+                    登录
                 </Menu.Item>
-                <Menu.Item onClick={this.handleGetPaper} key="getPaper" icon={<FileAddOutlined />}>
-                    获取试卷
+                <Menu.Item onClick={this.handleRegister} key="register" icon={<UserAddOutlined />}>
+                    注册
                 </Menu.Item>
             </Menu>
         );
     }
 }
 
-export default withRouter(LoginMenu)
+export default withRouter(LogoutMenu)

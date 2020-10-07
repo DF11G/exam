@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Button, Menu, Input, Dropdown } from 'antd'
-import { InfoCircleOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
+import { KeyOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
 import "antd/dist/antd.css"
 
 const menu = (
@@ -21,7 +21,7 @@ class Register extends Component {
                 />
                 <Input.Password
                     placeholder="输入密码"
-                    prefix={<UserOutlined className="KeyOutlined" />}
+                    prefix={<KeyOutlined />}
                 />
 
                 <Dropdown overlay={menu}>
