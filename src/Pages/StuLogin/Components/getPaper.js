@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import "antd/dist/antd.css";
 import { Input } from 'antd';
 const { Search } = Input;
 
-class getPaper extends Component {
+class GetPaper extends Component {
     constructor(props) {
         super(props)
 
@@ -21,4 +21,4 @@ class getPaper extends Component {
     }
 }
 
-export default getPaper
+export default GetPaper

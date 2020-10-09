@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import "antd/dist/antd.css";
 import { Menu } from 'antd';
 import { withRouter } from "react-router-dom";
-import { UserAddOutlined, FileAddOutlined, IdcardOutlined } from '@ant-design/icons';
+import { UserAddOutlined,  IdcardOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 

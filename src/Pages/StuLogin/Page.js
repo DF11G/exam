@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom'
 import LogoutMenu from './Components/LogoutMenu'
 import LoginMenu from './Components/LoginMenu'
 import InputPassword from './Components/InputPassword'
-import getPaper from './Components/getPaper'
+import GetPaper from './Components/GetPaper'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Register from './Components/Register'
 import './Page.css'
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout, Breadcrumb } from 'antd'
 
 const { Header, Content, Footer } = Layout;
 
@@ -47,7 +47,7 @@ class StuLogin extends Component {
                                 ></Route>
 
                                 <Route
-                                    path='/getPaper' exact component={getPaper}
+                                    path='/getPaper' exact component={GetPaper}
                                 ></Route>
                             </div>
                         </Content>
