@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import "antd/dist/antd.css"
-import ReactDOM from 'react-dom'
 import LogoutMenu from './Components/LogoutMenu'
 import LoginMenu from './Components/LoginMenu'
 import InputPassword from './Components/InputPassword'
 import GetPaper from './Components/GetPaper'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Register from './Components/Register'
-import './Page.css'
+import './Main.css'
 import { Layout, Breadcrumb } from 'antd'
 
 const { Header, Content, Footer } = Layout;
