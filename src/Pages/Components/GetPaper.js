@@ -6,7 +6,10 @@ const { Search } = Input;
 class GetPaper extends Component {
     constructor(props) {
         super(props)
-
+        this.handleGetPaper = this.handleGetPaper.bind(this)
+    }
+    handleGetPaper() {
+        this.props.history.push('./paper')
     }
     render() {
         return (
@@ -14,7 +17,7 @@ class GetPaper extends Component {
                 placeholder="输入试卷编号"
                 enterButton="获取试卷"
                 size="large"
-                onSearch={value => console.log(value)}
+                onSearch={this.handleGetPaper}
                 history={this.props.history}
             />
         )

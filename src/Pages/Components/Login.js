@@ -9,7 +9,7 @@ import { handleGetUserInfAction } from './Store/ActionCreators'
 import store from './Store/Index'
 
 
-class InputPassword extends Component {
+class Login extends Component {
     constructor(props) {
         super(props)
         this.state = store.getState()
@@ -34,19 +34,18 @@ class InputPassword extends Component {
             "password": this.state.userPassword
         }).then((res) => {
             console.log(res)
-
-            //调试代码
-            console.log(this.state.userName)
-            console.log(this.state.userPassword)
-            //调试代码
-
+            console.log(this.state.userName, res.data.object.type)
             if (res.data.code === 1) {
-                this.props.history.push('/login')
+                const action = handleGetUserInfAction(this.state.userName, res.data.object.type)
+                store.dispatch(action) 
+                if (this.state.historyURL === '/' || this.state.historyURL === '/register') {
+                    this.props.history.push('/login')
+                } else {
+                    this.props.history.push(this.state.historyURL)
+                }
             } else {
                 alert('登陆失败')
             }
-            const action = handleGetUserInfAction(this.state.userName)
-            store.dispatch(action)
         }).catch(() => {
             alert('请求错误')
         })
@@ -81,4 +80,4 @@ class InputPassword extends Component {
     }
 }
 
-export default InputPassword
+export default Login
