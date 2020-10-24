@@ -33,6 +33,7 @@ const dataState = {
     solutionValue: '',//问答题答案
     complexTitleValue: '',//复合题标题
     complexMaterialValue: '',//复合题材料
+    isEditComplexQuestion: 0,//是否在编辑复合题,0为不编辑,1为正在编辑
 }
 
 export default (state = dataState, action) => {
