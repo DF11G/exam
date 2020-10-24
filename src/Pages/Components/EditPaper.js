@@ -14,7 +14,7 @@ class EditPaper extends Component {
         this.state = store.getState()
         this.handleQuestionChange = this.handleQuestionChange.bind(this)
         this.handleQuestionTypeChange = this.handleQuestionTypeChange.bind(this)
-
+        
     }
 
     handleQuestionChange(e) {

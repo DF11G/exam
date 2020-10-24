@@ -47,6 +47,7 @@ class Answer extends Component {
         })
     }
 
+    
     render() {
         return (
             <div>
@@ -71,7 +72,9 @@ class Answer extends Component {
                 <Button
                     type="primary"
                     onClick={this.handleAnswerSubmit}
-                >提交该问题</Button>
+                >
+                    提交该问题
+                </Button>
             </div>
         )
     }
