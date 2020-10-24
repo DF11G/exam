@@ -11,10 +11,11 @@ import Register from './Components/Register'
 import SetPaper from './Components/SetPaper'
 import EditPaper from './Components/EditPaper'
 import './Main.css'
-import { Layout, Breadcrumb } from 'antd'
+import { Layout, Breadcrumb, List, Menu } from 'antd'
 
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 
 class StuLogin extends Component {
 
@@ -30,6 +31,9 @@ class StuLogin extends Component {
 							<Layout style={{ padding: '0 24px 24px' }}>
 								<Breadcrumb style={{ margin: '16px 0' }}>
 								</Breadcrumb>
+								<Sider className="site-layout-background" width={200}>
+									<PaperMenu />
+								</Sider>
 								<Content
 									className="site-layout-background"
 									style={{
