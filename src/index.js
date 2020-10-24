@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StuLogin from './Pages/Main'
+import Main from './Pages/Main'
 
 ReactDOM.render(
-  <StuLogin />,
+  <Main />,
   document.getElementById('root')
 );
+

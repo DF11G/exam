@@ -17,7 +17,7 @@ import { Layout, Breadcrumb, List, Menu } from 'antd'
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-class StuLogin extends Component {
+class Main extends Component {
 
 	render() {
 		return (
@@ -73,4 +73,4 @@ class StuLogin extends Component {
 	}
 }
 
-export default StuLogin
+export default Main
