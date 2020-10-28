@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "antd/dist/antd.css"
-import { Input } from 'antd'
+import { Input, Radio } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button } from 'antd'
 import Axios from 'axios'
@@ -13,18 +13,28 @@ class Register extends Component {
         super(props)
         this.state = {
             userName: '',
+            userTrueName: '',
             password: '',
-            passwordTwice: ''
+            passwordTwice: '',
+            userType: 1
         }
         this.handleUserNameChange = this.handleUserNameChange.bind(this)
         this.handleInputPassword = this.handleInputPassword.bind(this)
         this.handleInputPasswordTwice = this.handleInputPasswordTwice.bind(this)
         this.handleRegister = this.handleRegister.bind(this)
+        this.handleuserTrueNameChange = this.handleuserTrueNameChange.bind(this)
+        this.handleUserTypeChange = this.handleUserTypeChange.bind(this)
     }
 
     handleUserNameChange(e) {
         this.setState({
             userName: e.target.value
+        })
+    }
+
+    handleuserTrueNameChange(e) {
+        this.setState({
+            userTrueName: e.target.value
         })
     }
 
@@ -40,11 +50,34 @@ class Register extends Component {
         })
     }
 
+    handleUserTypeChange(e) {
+        console.log(this.state.userType)
+        this.setState({
+            userType: e.target.value
+        })
+    }
+
     handleRegister() {
-        if (this.state.password != this.state.passwordTwice) {
-            alert('两次输入的密码不一致')
+        if (this.state.password === this.state.passwordTwice) {
+            Axios.put('/exam/user/register', {
+                account: this.state.userName,
+                password: this.state.password,
+                name: this.state.userTrueName,
+                type: this.state.userType
+            }).then((res) => {
+                if (res.data.code === 1) {
+                    this.props.history.push('/main')
+                    alert('注册成功')
+                } else if (res.code === 4) {
+                    alert('账号重复')
+                } else {
+                    alert('请求错误')
+                }
+            }).catch(() => {
+                alert('服务器错误')
+            })
         } else {
-            console.log('注册')
+            alert('两次输入密码不一致')
         }
     }
 
@@ -64,7 +97,20 @@ class Register extends Component {
                             value={this.state.userName}
                             onChange={this.handleUserNameChange}
                         />
+
                     </div>
+                    <div class="login-input-box">
+                        <span class="icon icon-user"></span>
+                        <Input
+                            size="large"
+                            type="text"
+                            placeholder="输入真实姓名"
+                            value={this.state.userTrueName}
+                            onChange={this.handleuserTrueNameChange}
+                        />
+
+                    </div>
+
                     <div class="login-input-box">
                         <span class="icon icon-password"></span>
                         <Input.Password
@@ -87,10 +133,21 @@ class Register extends Component {
                             iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                         />
                     </div>
+                    <div>
+                        <span class="icon icon-password"></span>
+                        <Radio.Group
+                            onChange={this.handleUserTypeChange}
+                            value={this.state.userType}
+                        >
+                            <Radio value={1}>教师</Radio>
+                            <Radio value={2}>学生</Radio>
+                        </Radio.Group>
+                    </div>
                 </form>
                 <div class="login-button-box">
                     <button
                         onClick={this.handleRegister}
+                        history={this.props.history}
                     >注册</button>
                 </div>
                 <div class="logon-box">

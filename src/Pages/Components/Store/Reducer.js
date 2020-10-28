@@ -7,8 +7,8 @@ import { GET_USER_INF, LOG_OUT, PASSWORD_CHANGE, HISTORY_URL, QUESTION, QUESTION
 // 2 已登录,老师
 const dataState = {
     pageState: 0,
-    userName: '',//登录用户名
-    userType: '',//用户类型
+
+
     userPassword: '',//登录用户密码
     registerName: '',//注册用户名
     registerPassword: '',//注册用户密码
@@ -34,6 +34,9 @@ const dataState = {
     complexTitleValue: '',//复合题标题
     complexMaterialValue: '',//复合题材料
     isEditComplexQuestion: 0,//是否在编辑复合题,0为不编辑,1为正在编辑
+    //
+    userName: '',//登录用户姓名
+    userType: '',//用户类型
 }
 
 export default (state = dataState, action) => {

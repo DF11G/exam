@@ -5,6 +5,8 @@ import { UserOutlined, KeyOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import Axios from 'axios'
 import './Login.css'
+import { BrowserRouter, Route } from 'react-router-dom'
+
 
 
 class Login extends Component {
@@ -33,7 +35,22 @@ class Login extends Component {
     }
 
     handleLogin() {
-        console.log('登录')
+        Axios.post('/exam/user/loginCheck', {
+            "account": this.state.userName,
+            "password": this.state.password
+        }).then((res) => {
+            console.log(res)
+            if (res.data.code === 1) {
+                this.props.history.push('/main')
+                alert('登陆成功')
+            } else if (res.data.code === 3) {
+                alert('账户名密码错误')
+            } else {
+                alert('请求错误')
+            }
+        }).catch(() => {
+            alert('服务器错误')
+        })
     }
 
     render() {
@@ -63,7 +80,10 @@ class Login extends Component {
                     </div>
                 </form>
                 <div className="login-button-box">
-                    <button>登录</button>
+                    <button
+                        onClick={this.handleLogin}
+                        history={this.props.history}
+                    >登录</button>
                 </div>
                 <div className="logon-box">
                     <a href="">忘记密码</a>
