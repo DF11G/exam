@@ -43,9 +43,9 @@ class Main extends Component {
 									}}
 								>
 									<div className="site-layout-content">
-										<Route
+										{/* <Route
 											path='/' exact component={Login}
-										></Route>
+										></Route> */}
 										<Route
 											path='/register' exact component={Register}
 										></Route>
