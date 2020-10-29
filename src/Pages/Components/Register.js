@@ -1,89 +1,170 @@
 import React, { Component } from 'react'
-import { Button, Input, Radio } from 'antd'
-import { KeyOutlined, UserOutlined } from '@ant-design/icons'
-import { handleDeleteRegisterInf } from './Store/ActionCreators'
 import "antd/dist/antd.css"
-import store from './Store/Index'
+import { Input, Radio } from 'antd'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Button } from 'antd'
 import Axios from 'axios'
+import './Login.css'
+
 
 class Register extends Component {
+
     constructor(props) {
         super(props)
+        this.state = {
+            userName: '',
+            userTrueName: '',
+            password: '',
+            passwordTwice: '',
+            userType: 1
+        }
+        this.handleUserNameChange = this.handleUserNameChange.bind(this)
+        this.handleInputPassword = this.handleInputPassword.bind(this)
+        this.handleInputPasswordTwice = this.handleInputPasswordTwice.bind(this)
         this.handleRegister = this.handleRegister.bind(this)
-        this.state = store.getState()
-        this.handleInputChangeName = this.handleInputChangeName.bind(this)
-        this.handleInputChangePassword = this.handleInputChangePassword.bind(this)
-        this.handleChoose = this.handleChoose.bind(this)
+        this.handleuserTrueNameChange = this.handleuserTrueNameChange.bind(this)
+        this.handleUserTypeChange = this.handleUserTypeChange.bind(this)
+        this.handleLogin = this.handleLogin.bind(this)
+    }
+
+    handleUserNameChange(e) {
+        this.setState({
+            userName: e.target.value
+        })
+    }
+
+    handleuserTrueNameChange(e) {
+        this.setState({
+            userTrueName: e.target.value
+        })
+    }
+
+    handleInputPassword(e) {
+        this.setState({
+            password: e.target.value
+        })
+    }
+
+    handleInputPasswordTwice(e) {
+        this.setState({
+            passwordTwice: e.target.value
+        })
+    }
+
+    handleUserTypeChange(e) {
+        console.log(this.state.userType)
+        this.setState({
+            userType: e.target.value
+        })
+    }
+
+    handleLogin() {
+        this.props.history.push('./')
     }
 
     handleRegister() {
-        Axios.put('/exam/user/register', {
-            account: this.state.registerName,
-            password: this.state.registerPassword,
-            type: this.state.registerType,
-            name: "name"   
-        }).then((res) => {
-            console.log(res)
-            console.log(this.state.registerName)
-            console.log(this.state.registerPassword)
-            if (res.data.code === 0) {
-                alert('注册成功')
-                const action = handleDeleteRegisterInf()
-                store.dispatch(action)
-            } else if (res.code === 3) {
-                alert('账号重复')
-            } else if (res.code === 1) {
-                alert('参数错误')
-            }
-        }).catch(() => {
-            alert('请求错误')
-        })
+        if (this.state.password === this.state.passwordTwice) {
+            Axios.put('/exam/user/register', {
+                account: this.state.userName,
+                password: this.state.password,
+                name: this.state.userTrueName,
+                type: this.state.userType
+            }).then((res) => {
+                if (res.data.code === 1) {
+                    this.props.history.push('/main')
+                    alert('注册成功')
+                } else if (res.code === 4) {
+                    alert('账号重复')
+                } else {
+                    alert('请求错误')
+                }
+            }).catch(() => {
+                alert('服务器错误')
+            })
+        } else {
+            alert('两次输入密码不一致')
+        }
+    }
 
-    }
-    handleInputChangeName(e) {
-        this.setState({
-            registerName: e.target.value
-        })
-    }
-    handleInputChangePassword(e) {
-        this.setState({
-            registerPassword: e.target.value
-        })
-    }
-    handleChoose(e) {
-        this.setState({
-            registerType: e.target.value
-        })
-    }
     render() {
         return (
-            <div>
-                <Input
-                    placeholder="输入用户名"
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    value={this.state.registerName}
-                    onChange={this.handleInputChangeName}
-                />
-                <Input.Password
-                    placeholder="输入密码"
-                    prefix={<KeyOutlined />}
-                    value={this.state.registerPassword}
-                    onChange={this.handleInputChangePassword}
-                />
-                <Radio.Group
-                    buttonStyle="solid"
-                    onChange={this.handleChoose}
-                >
-                    <Radio.Button value="1">教师</Radio.Button>
-                    <Radio.Button value="2">学生</Radio.Button>
-                </Radio.Group>
-                <Button
-                    onClick={this.handleRegister}
-                >
-                    确定
-                </Button>
+            <div id="content_2">
+                <div class="login-header">
+                    注册您的用户
+                </div>
+                <form>
+                    <div class="login-input-box">
+                        <span class="icon icon-user"></span>
+                        <Input
+                            size="large"
+                            type="text"
+                            placeholder="输入用户名"
+                            value={this.state.userName}
+                            onChange={this.handleUserNameChange}
+                        />
+
+                    </div>
+                    <div class="login-input-box">
+                        <span class="icon icon-user"></span>
+                        <Input
+                            size="large"
+                            type="text"
+                            placeholder="输入真实姓名"
+                            value={this.state.userTrueName}
+                            onChange={this.handleuserTrueNameChange}
+                        />
+
+                    </div>
+
+                    <div class="login-input-box">
+                        <span class="icon icon-password"></span>
+                        <Input.Password
+                            size="small"
+                            value={this.state.password}
+                            type="password"
+                            placeholder="输入密码"
+                            onChange={this.handleInputPassword}
+                            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                        />
+                    </div>
+                    <div class="login-input-box">
+                        <span class="icon icon-password"></span>
+                        <Input.Password
+                            size="small"
+                            value={this.state.passwordTwice}
+                            type="password"
+                            placeholder="请再次输入密码"
+                            onChange={this.handleInputPasswordTwice}
+                            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                        />
+                    </div>
+                    <div>
+                        <span class="icon icon-password"></span>
+                        <Radio.Group
+                            onChange={this.handleUserTypeChange}
+                            value={this.state.userType}
+                        >
+                            <Radio value={1}>教师</Radio>
+                            <Radio value={2}>学生</Radio>
+                        </Radio.Group>
+                    </div>
+                </form>
+                <div class="login-button-box">
+                    <button
+                        onClick={this.handleRegister}
+                        history={this.props.history}
+                    >注册</button>
+                </div>
+                <div class="logon-box">
+                    <Button
+                        type="primary"
+                        onClick={this.handleLogin}
+                        history={this.props.history}
+                    >返回登录</Button>
+                </div>
             </div>
         )
     }
 }
+
 export default Register

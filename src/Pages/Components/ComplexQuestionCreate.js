@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Input, Button, Radio } from 'antd'
 import "antd/dist/antd.css";
 import store from './Store/Index'
-import Axios from 'axios'
 import Answer from './Answer'
 import Choice from './Choice'
 import { handleQuestion } from './Store/ActionCreators'

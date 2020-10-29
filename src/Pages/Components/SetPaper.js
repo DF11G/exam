@@ -4,6 +4,7 @@ import { InputNumber, Input, Button } from 'antd';
 import { EditOutlined, TagsOutlined } from '@ant-design/icons';
 import store from './Store/Index'
 import Axios from 'axios'
+import { withRouter } from "react-router-dom";
 
 const { TextArea } = Input;
 
@@ -99,4 +100,4 @@ class SetPaper extends Component {
         )
     }
 }
-export default SetPaper
+export default withRouter(SetPaper)

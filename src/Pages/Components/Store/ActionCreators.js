@@ -1,11 +1,10 @@
 import { GET_USER_INF, DELETE_REGISTER_INF, LOG_OUT, PASSWORD_CHANGE, HISTORY_URL, QUESTION, QUESTION_TYPE } from './ActionType'
 
 
-export const handleGetUserInfAction = (name, value) => {
+export const handleGetUserInfAction = (name) => {
     return {
         type: GET_USER_INF,
-        name,
-        value
+        name
     }
 }
 export const handleUserLogout = () => {
@@ -23,12 +22,7 @@ export const handleChangePassword = () => {
         type: PASSWORD_CHANGE
     }
 }
-export const handleHistoryURL = (url) => {
-    return {
-        type: HISTORY_URL,
-        url
-    }
-}
+
 export const handleQuestion = (value) => {
     return {
         type: QUESTION,

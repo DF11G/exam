@@ -7,6 +7,8 @@ import { Radio } from 'antd';
 import store from './Store/Index'
 import { handleQuestion, handleQuestionType } from './Store/ActionCreators'
 import Axios from 'axios'
+import { withRouter } from "react-router-dom";
+
 
 class EditPaper extends Component {
     constructor(props) {
@@ -14,7 +16,7 @@ class EditPaper extends Component {
         this.state = store.getState()
         this.handleQuestionChange = this.handleQuestionChange.bind(this)
         this.handleQuestionTypeChange = this.handleQuestionTypeChange.bind(this)
-        
+
     }
 
     handleQuestionChange(e) {
@@ -73,4 +75,4 @@ class EditPaper extends Component {
     }
 }
 
-export default EditPaper
+export default withRouter(EditPaper)

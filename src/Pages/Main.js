@@ -2,20 +2,14 @@ import React, { Component } from 'react'
 import "antd/dist/antd.css"
 // import LogoutMenu from './Components/LogoutMenu'
 import MainMenu from './Components/MainMenu'
-import PaperMenu from './Components/PaperMenu'
-import Login from './Components/Login'
 import GetPaper from './Components/GetPaper'
-import changePassword from './Components/ChangePassword'
-import { BrowserRouter, Route } from 'react-router-dom'
-import Register from './Components/Register'
+import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 import SetPaper from './Components/SetPaper'
 import EditPaper from './Components/EditPaper'
 import './Main.css'
-import { Layout, Breadcrumb, List, Menu } from 'antd'
+import { Layout, Breadcrumb } from 'antd'
 
-
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Header, Content, Footer } = Layout;
 
 class Main extends Component {
 
@@ -25,15 +19,14 @@ class Main extends Component {
 				<BrowserRouter>
 					<div>
 						<Header>
-							<MainMenu />
+							<Route
+								path='/main' component={MainMenu}
+							></Route>
 						</Header>
 						<Layout>
 							<Layout style={{ padding: '0 24px 24px' }}>
 								<Breadcrumb style={{ margin: '16px 0' }}>
 								</Breadcrumb>
-								<Sider className="site-layout-background" width={200}>
-									<PaperMenu />
-								</Sider>
 								<Content
 									className="site-layout-background"
 									style={{
@@ -43,23 +36,14 @@ class Main extends Component {
 									}}
 								>
 									<div className="site-layout-content">
-										{/* <Route
-											path='/' exact component={Login}
-										></Route> */}
 										<Route
-											path='/register' exact component={Register}
+											path='/main/getPaper' component={GetPaper}
 										></Route>
 										<Route
-											path='/getPaper' exact component={GetPaper}
+											path='/main/setPaper' component={SetPaper}
 										></Route>
 										<Route
-											path='/changePassword' exact component={changePassword}
-										></Route>
-										<Route
-											path='/setPaper' exact component={SetPaper}
-										></Route>
-										<Route
-											path='/editPaper' exact component={EditPaper}
+											path='/main/editPaper' component={EditPaper}
 										></Route>
 									</div>
 								</Content>

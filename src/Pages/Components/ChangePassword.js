@@ -1,43 +1,32 @@
 import React, { Component } from 'react'
-import "antd/dist/antd.css";
-import { Input, Button } from 'antd';
-import store from './Store/Index'
+import "antd/dist/antd.css"
 import Axios from 'axios'
-import { handleChangePassword } from './Store/ActionCreators'
+import './Login.css'
+import { Button } from 'antd'
+
 
 class ChangePassword extends Component {
+
     constructor(props) {
         super(props)
-        this.state = store.getState()
-        this.handleChangePassword = this.handleChangePassword.bind(this)
+        this.state = {
+            userName: '',
+            oldPassword: '',
+            password: '',
+            passwordTwice: ''
+        }
+        this.handleInputUserName = this.handleInputUserName.bind(this)
         this.handleInputOldPassword = this.handleInputOldPassword.bind(this)
-        this.handleInputNewPassword = this.handleInputNewPassword.bind(this)
-        this.handleInputNewPasswordAgain = this.handleInputNewPasswordAgain.bind(this)
+        this.handleInputPassword = this.handleInputPassword.bind(this)
+        this.handleInputpasswordTwice = this.handleInputpasswordTwice.bind(this)
+        this.handleChangePassword = this.handleChangePassword.bind(this)
+        this.handleLogin = this.handleLogin.bind(this)
     }
 
-    handleChangePassword() {
-        if (this.state.newPassword === this.state.newPasswordAgain) {
-            Axios.post('exam/user/changePassword', {
-                account: this.state.userName,
-                oldPassword: this.state.oldPassword,
-                newPassword: this.state.newPassword
-            }).then((res) => {
-                console.log(res)
-                if (res.data.code === 1) {
-                    const action = handleChangePassword()
-                    store.dispatch(action)
-                    alert('修改成功')
-                } else if (res.data.code === 7) {
-                    alert('修改失败,密码输入错误')
-                } else if (res.data.code === 2) {
-                    alert('参数错误')
-                } else {
-                    alert('其他错误')
-                }
-            })
-        } else {
-            alert('两次输入密码不一致')
-        }
+    handleInputUserName(e) {
+        this.setState({
+            userName: e.target.value
+        })
     }
 
     handleInputOldPassword(e) {
@@ -45,42 +34,107 @@ class ChangePassword extends Component {
             oldPassword: e.target.value
         })
     }
-    handleInputNewPassword(e) {
+
+    handleInputPassword(e) {
         this.setState({
-            newPassword: e.target.value
+            password: e.target.value
         })
     }
-    handleInputNewPasswordAgain(e) {
+
+    handleInputpasswordTwice(e) {
         this.setState({
-            newPasswordAgain: e.target.value
+            passwordTwice: e.target.value
         })
+    }
+
+    handleLogin() {
+        this.props.history.push('./')
+    }
+
+    handleChangePassword() {
+        if (this.state.password != this.state.passwordTwice) {
+            alert('两次输入的新密码不一致')
+        } else {
+            Axios.post('/exam/user/changePassword', {
+                account: this.state.userName,
+                oldPassword: this.state.oldPassword,
+                newPassword: this.state.password
+            }).then((res) => {
+                if (res.data.code === 1) {
+                    this.props.history.push('/')
+                    alert('修改成功')
+                } else if (res.code === 7) {
+                    alert('账号不存在或密码错误')
+                } else {
+                    console.log(res)
+                    alert('请求错误')
+                }
+            }).catch(() => {
+                alert('服务器错误')
+            })
+        }
     }
 
     render() {
         return (
-            <div>
-                <Input.Password
-                    placeholder="输入旧密码"
-                    value={this.state.oldPassword}
-                    onChange={this.handleInputOldPassword}
-                />
-                <Input.Password
-                    placeholder="输入新密码"
-                    value={this.state.newPassword}
-                    onChange={this.handleInputNewPassword}
-                />
-                <Input.Password
-                    placeholder="再次输入新密码"
-                    value={this.state.newPasswordAgain}
-                    onChange={this.handleInputNewPasswordAgain}
-                />
-                <Button
-                    onClick={this.handleChangePassword}
-                >
-                    提交修改
-                </Button>
+            <div id="content_2">
+                <div class="login-header">
+                    修改用户密码
+                </div>
+                <form>
+                    <div className="login-input-box">
+                        <span className="icon icon-user"></span>
+                        <input
+                            type="text"
+                            placeholder="输入用户名"
+                            value={this.state.userName}
+                            onChange={this.handleInputUserName}
+                        />
+                    </div>
+                    <div class="login-input-box">
+                        <span class="icon icon-password"></span>
+                        <input
+                            type="password"
+                            placeholder="输入您当前的密码"
+                            value={this.state.oldPassword}
+                            onChange={this.handleInputOldPassword}
+                        />
+                    </div>
+                    <div class="login-input-box">
+                        <span class="icon icon-password"></span>
+                        <input
+                            value={this.state.password}
+                            type="password"
+                            placeholder="输入您想修改的密码"
+                            onChange={this.handleInputPassword}
+                        />
+                    </div>
+                    <div class="login-input-box">
+                        <span class="icon icon-password"></span>
+                        <input
+                            value={this.state.passwordTwice}
+                            type="password"
+                            placeholder="再次输入您想修改的密码"
+                            onChange={this.handleInputpasswordTwice}
+                        />
+                    </div>
+                </form>
+                <div class="login-button-box">
+                    <button
+                        onClick={this.handleChangePassword}
+                        history={this.props.history}
+                    >修改密码</button>
+                </div>
+                <div class="logon-box">
+                    <Button
+                        type="primary"
+                        onClick={this.handleLogin}
+                        history={this.props.history}
+                    >返回登录</Button>
+                </div>
             </div>
         )
     }
 }
+
 export default ChangePassword

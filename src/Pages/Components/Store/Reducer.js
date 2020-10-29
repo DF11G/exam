@@ -6,8 +6,6 @@ import { GET_USER_INF, LOG_OUT, PASSWORD_CHANGE, HISTORY_URL, QUESTION, QUESTION
 // 1 已登录,学生
 // 2 已登录,老师
 const dataState = {
-    pageState: 0,
-
 
     userPassword: '',//登录用户密码
     registerName: '',//注册用户名
@@ -35,15 +33,14 @@ const dataState = {
     complexMaterialValue: '',//复合题材料
     isEditComplexQuestion: 0,//是否在编辑复合题,0为不编辑,1为正在编辑
     //
-    userName: '',//登录用户姓名
-    userType: '',//用户类型
+    userTrueName: 'default',//登录用户姓名
+    userType: 1,//用户类型
 }
 
 export default (state = dataState, action) => {
     if (action.type === GET_USER_INF) { // 登录获取用户名 更改登录状态
         const newState = JSON.parse(JSON.stringify(state))
-        newState.userName = action.name
-        newState.userType = action.value
+        newState.userTrueName = action.name
         console.log(newState.userType)
         newState.pageState = 1
         newState.userPassword = ''

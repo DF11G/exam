@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import "antd/dist/antd.css";
 import { Input } from 'antd';
+import { withRouter } from "react-router-dom";
 const { Search } = Input;
 
 class GetPaper extends Component {
@@ -9,7 +10,7 @@ class GetPaper extends Component {
         this.handleGetPaper = this.handleGetPaper.bind(this)
     }
     handleGetPaper() {
-        this.props.history.push('./paper')
+        this.props.history.push('./main/paper')
     }
     render() {
         return (
@@ -24,4 +25,4 @@ class GetPaper extends Component {
     }
 }
 
-export default GetPaper
+export default withRouter(GetPaper)

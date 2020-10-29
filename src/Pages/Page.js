@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import Main from './Main'
-import Login from './Login'
-import Register from './Register'
-import ChangePassword from './ChangePassword'
 import { BrowserRouter, Route } from 'react-router-dom'
+import Font from './Font'
 
 class Page extends Component {
     render() {
@@ -11,16 +9,10 @@ class Page extends Component {
             <BrowserRouter>
                 <div>
                     <Route
-                        path='/' exact component={Login}
+                        path='/' exact component={Font}
                     ></Route>
                     <Route
-                        path='/register' exact component={Register}
-                    ></Route>
-                    <Route
-                        path='/changePassword' exact component={ChangePassword}
-                    ></Route>
-                    <Route
-                        path='/main' exact component={Main}
+                        path='/main' component={Main}
                     ></Route>
                 </div>
             </BrowserRouter>
