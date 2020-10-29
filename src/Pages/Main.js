@@ -9,6 +9,7 @@ import EditPaper from './Components/EditPaper'
 import './Main.css'
 import { Layout, Breadcrumb } from 'antd'
 
+
 const { Header, Content, Footer } = Layout;
 
 class Main extends Component {
@@ -16,7 +17,7 @@ class Main extends Component {
 	render() {
 		return (
 			<Layout className="layout">
-				<BrowserRouter>
+				
 					<div>
 						<Header>
 							<Route
@@ -51,10 +52,10 @@ class Main extends Component {
 						</Layout>
 						<Footer style={{ textAlign: 'center' }}>2020@bjfu</Footer>
 					</div>
-				</BrowserRouter>
+				
 			</Layout>
 		)
 	}
 }
 
-export default Main
+export default withRouter(Main)

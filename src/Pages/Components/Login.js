@@ -50,10 +50,10 @@ class Login extends Component {
         }).then((res) => {
             console.log(res)
             if (res.data.code === 1) {
-                const action = handleGetUserInfAction(res.data.object.name)
+                const action = handleGetUserInfAction(res.data.object.name, res.data.code)
                 store.dispatch(action)
-                this.props.history.push('/main')
                 alert('登陆成功')
+                this.props.history.push('/main')
             } else if (res.data.code === 3) {
                 alert('账户名密码错误')
             } else {

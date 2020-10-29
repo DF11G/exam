@@ -41,9 +41,8 @@ export default (state = dataState, action) => {
     if (action.type === GET_USER_INF) { // 登录获取用户名 更改登录状态
         const newState = JSON.parse(JSON.stringify(state))
         newState.userTrueName = action.name
+        newState.userType = action.value
         console.log(newState.userType)
-        newState.pageState = 1
-        newState.userPassword = ''
         return newState
     } else if (action.type === LOG_OUT) { // 登出修改用户状态
         const newState = JSON.parse(JSON.stringify(state))
