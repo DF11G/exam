@@ -5,6 +5,8 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button } from 'antd'
 import Axios from 'axios'
 import './Login.css'
+import { withRouter } from "react-router-dom"
+
 
 
 class Register extends Component {
@@ -167,4 +169,4 @@ class Register extends Component {
     }
 }
 
-export default Register
+export default withRouter(Register)

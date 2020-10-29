@@ -10,7 +10,6 @@ class MainMenu extends Component {
     constructor(props) {
         super(props)
         this.state = store.getState()
-        
         this.handleLogout = this.handleLogout.bind(this)
         this.handleGetPaper = this.handleGetPaper.bind(this)
         this.handleStoreChange = this.handleStoreChange.bind(this)
@@ -71,13 +70,6 @@ class MainMenu extends Component {
                     >
                         获取我创建的试卷
                         </Menu.Item>
-                    <Menu.Item
-                        onClick={this.handleChangePassword}
-                        key="userInf"
-                        icon={<HistoryOutlined />}
-                    >
-                        {this.state.userName}
-                    </Menu.Item>
                 </Menu>
             )
 

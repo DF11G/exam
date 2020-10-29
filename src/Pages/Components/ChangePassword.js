@@ -3,6 +3,8 @@ import "antd/dist/antd.css"
 import Axios from 'axios'
 import './Login.css'
 import { Button } from 'antd'
+import { withRouter } from "react-router-dom";
+
 
 
 class ChangePassword extends Component {
@@ -137,4 +139,4 @@ class ChangePassword extends Component {
     }
 }
 
-export default ChangePassword
+export default withRouter(ChangePassword)

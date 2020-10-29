@@ -5,6 +5,7 @@ import './Login.css'
 import store from './Store/Index'
 import { handleGetUserInfAction } from './Store/ActionCreators'
 import { Button } from 'antd'
+import { withRouter } from "react-router-dom";
 
 
 
@@ -100,12 +101,12 @@ class Login extends Component {
                     <Button
                         type="primary"
                         onClick={this.handleChangePassword}
-                        history={this.props.history}
+                        
                     >修改密码</Button>
                     <Button
                         type="primary"
                         onClick={this.handleRegister}
-                        history={this.props.history}
+                        
                     >注册</Button>
                 </div>
             </div>
@@ -113,4 +114,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default withRouter(Login)

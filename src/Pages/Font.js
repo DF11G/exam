@@ -9,19 +9,19 @@ import { withRouter } from "react-router-dom"
 class Font extends Component {
     render() {
         return (
-            
+            <BrowserRouter>
                 <div>
                     <Route
                         path='/' exact component={Login}
                     ></Route>
                     <Route
-                        path='/register' exact component={Register}
+                        path='/register' component={Register}
                     ></Route>
                     <Route
-                        path='/changePassword' exact component={ChangePassword}
+                        path='/changePassword' component={ChangePassword}
                     ></Route>
                 </div>
-            
+            </BrowserRouter>
         )
     }
 }
