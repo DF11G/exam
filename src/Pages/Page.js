@@ -7,6 +7,7 @@ import "antd/dist/antd.css"
 import Login from './Components/Index/Login'
 import Register from './Components/Index/Register'
 import ChangePassword from './Components/Index/ChangePassword'
+import UserInfoMenu from './Components/userInfo/UserInfoMenu'
 
 import './Page.css'
 
@@ -19,38 +20,26 @@ class Page extends Component {
                 <div>
                     <Layout className="layout">
                         <Header>
-                        <div className="logo" />
-                        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                            <Menu.Item key="1">nav 1</Menu.Item>
-                            <Menu.Item key="2">nav 2</Menu.Item>
-                            <Menu.Item key="3">nav 3</Menu.Item>
-                        </Menu>
+                            <div className="logo" />
+                            <div className="page-menu">
+                                <UserInfoMenu></UserInfoMenu>
+                            </div>
                         </Header>
                         <Content style={{ padding: '0 50px' }}>
-                        {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item><a href="register">Home</a></Breadcrumb.Item>
-                            <Breadcrumb.Item><a href="register">List</a></Breadcrumb.Item>
-                            <Breadcrumb.Item><a href="register">App</a></Breadcrumb.Item>
-                        </Breadcrumb> */}
-                        <PageHeader
-                            className="site-page-header"
-                            onBack={() => null}
-                            title="登录"
-                        />
-                        <div className="site-layout-content">
-                            <Switch>
-                                <Route
-                                    path='/login' component={Login}
-                                ></Route>
-                                <Route
-                                    path='/register' component={Register}
-                                ></Route>
-                                <Route
-                                    path='/changePassword' component={ChangePassword}
-                                ></Route>
-                                <Redirect exact to="/login" from='/' />
-                            </Switch>
-                        </div>
+                            <div>
+                                <Switch>
+                                    <Route
+                                        path='/login' component={Login}
+                                    ></Route>
+                                    <Route
+                                        path='/register' component={Register}
+                                    ></Route>
+                                    <Route
+                                        path='/changePassword' component={ChangePassword}
+                                    ></Route>
+                                    <Redirect exact to="/login" from='/' />
+                                </Switch>
+                            </div>
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                     </Layout>

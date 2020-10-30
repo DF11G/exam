@@ -1,8 +1,8 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import "antd/dist/antd.css"
 import Axios from 'axios'
 import { withRouter } from "react-router-dom"
-import { Form, Input, Tooltip, Button, Select } from 'antd';
+import { Form, Input, Tooltip, Button, Select, PageHeader } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import "./Register.css"
 const { Option } = Select
@@ -38,91 +38,100 @@ class Register extends Component {
 
   render() {
     return (
-      <Form
-        name="register"
-        onFinish={this.onFinish}
-        scrollToFirstError
-        className="register-form"
-      >
+      <div className="register">
 
-        <Form.Item
-          name="account"
-          label="账号"
-          rules={[{ required: true, message: '请输入账号'}]}
+        <PageHeader
+            className="site-page-header"
+            onBack={() => window.history.back()}
+            title="注册"
+        />
+
+        <Form
+          name="register"
+          onFinish={this.onFinish}
+          scrollToFirstError
+          className="register-form"
         >
-          <Input />
-        </Form.Item>
-  
-        <Form.Item
-          name="password"
-          label="密码"
-          rules={[{ required: true, message: '请输入密码!'}]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-  
-        <Form.Item
-          name="confirm"
-          label="再次输入密码"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: '请再次确认您的密码!',
-            },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject('两次输入的密码不匹配!');
+
+          <Form.Item
+            name="account"
+            label="账号"
+            rules={[{ required: true, message: '请输入账号'}]}
+          >
+            <Input />
+          </Form.Item>
+    
+          <Form.Item
+            name="password"
+            label="密码"
+            rules={[{ required: true, message: '请输入密码!'}]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+    
+          <Form.Item
+            name="confirm"
+            label="再次输入密码"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: '请再次确认您的密码!',
               },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-  
-        <Form.Item
-          name="name"
-          label={
-            <span>
-              真实姓名&nbsp;
-              <Tooltip title="真实姓名用于老师辨认">
-                <QuestionCircleOutlined />
-              </Tooltip>
-            </span>
-          }
-          rules={[{ required: true, message: '请输入您的真实姓名!' }]}
-        >
-          <Input />
-        </Form.Item>
-      
-        <Form.Item
-          name="type"
-          label={
-            <span>
-              账号类型&nbsp;
-              <Tooltip title="学生只能答题/老师只能出题">
-                <QuestionCircleOutlined />
-              </Tooltip>
-            </span>
-          }
-          rules={[{ required: true, message: '请选择账号类型!' }]}
-        >
-          <Select placeholder="请选择您的账号类型">
-            <Option value="2">学生</Option>
-            <Option value="1">教师</Option>
-          </Select>
-        </Form.Item>
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject('两次输入的密码不匹配!');
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+    
+          <Form.Item
+            name="name"
+            label={
+              <span>
+                真实姓名&nbsp;
+                <Tooltip title="真实姓名用于老师辨认">
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </span>
+            }
+            rules={[{ required: true, message: '请输入您的真实姓名!' }]}
+          >
+            <Input />
+          </Form.Item>
+        
+          <Form.Item
+            name="type"
+            label={
+              <span>
+                账号类型&nbsp;
+                <Tooltip title="学生只能答题/老师只能出题">
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </span>
+            }
+            rules={[{ required: true, message: '请选择账号类型!' }]}
+          >
+            <Select placeholder="请选择您的账号类型">
+              <Option value="2">学生</Option>
+              <Option value="1">教师</Option>
+            </Select>
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="register-form-button">注册</Button>
-        </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="register-form-button">注册</Button>
+          </Form.Item>
 
-      </Form>
+        </Form>
+      </div>
     );
   }
 

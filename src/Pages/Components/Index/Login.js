@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, PageHeader } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import "antd/dist/antd.css"
 import Axios from 'axios'
@@ -35,6 +35,12 @@ class Login extends Component {
 
     render() {
         return (
+          <div className="login">
+            <PageHeader
+                className="site-page-header"
+                backIcon="false"
+                title="登录"
+            />
             <Form
               name="login_login"
               className="login-form"
@@ -86,6 +92,7 @@ class Login extends Component {
                 Or <a href="register">立即注册!</a>
               </Form.Item>
             </Form>
+          </div>
           )
     }
 
