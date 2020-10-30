@@ -2,9 +2,16 @@ import React, { Component } from 'react'
 import "antd/dist/antd.css";
 import { Menu } from 'antd';
 import { withRouter } from "react-router-dom";
-import { FileAddOutlined, IdcardOutlined, UserOutlined, UserAddOutlined, HistoryOutlined } from '@ant-design/icons';
+import { PieChartOutlined, FileAddOutlined, IdcardOutlined, UserOutlined, UserAddOutlined, HistoryOutlined } from '@ant-design/icons';
 import store from './Store/Index'
 import { handleUserLogout } from './Store/ActionCreators'
+
+const divRight = {
+    position: "absolute",
+    right: 0
+}
+
+const { SubMenu } = Menu
 
 class MainMenu extends Component {
     constructor(props) {
@@ -49,28 +56,36 @@ class MainMenu extends Component {
                     mode="horizontal"
                     defaultSelectedKeys={['2']}
                 >
-                    <Menu.Item
-                        onClick={this.handleLogout}
-                        key="logout"
-                        icon={<IdcardOutlined />}
+                    <SubMenu
+                        key="sub1"
+                        icon={<PieChartOutlined />}
+                        title={this.state.userTrueName}
+                        style={divRight}
                     >
-                        登出
+                        <Menu.Item
+                            onClick={this.handleLogout}
+                            key="logout"
+                            icon={<IdcardOutlined />}
+                        >
+                            登出
                         </Menu.Item>
-                    <Menu.Item
-                        onClick={this.handleSetPaper}
-                        key="getPaper"
-                        icon={<FileAddOutlined />}
-                    >
-                        创建试卷
+                        <Menu.Item
+                            onClick={this.handleSetPaper}
+                            key="getPaper"
+                            icon={<FileAddOutlined />}
+                        >
+                            创建试卷
                         </Menu.Item>
-                    <Menu.Item
-                        onClick={this.handleGetMyPaper}
-                        key="getMyPaper"
-                        icon={<FileAddOutlined />}
-                    >
-                        获取我创建的试卷
+                        <Menu.Item
+                            onClick={this.handleGetMyPaper}
+                            key="getMyPaper"
+                            icon={<FileAddOutlined />}
+                        >
+                            获取我创建的试卷
                         </Menu.Item>
-                </Menu>
+                    </SubMenu>
+
+                </Menu >
             )
 
         } else if (this.state.userType === 2) {//学生

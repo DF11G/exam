@@ -31,7 +31,7 @@ class SetPaper extends Component {
         }).catch(() => {
             alert('创建失败')
         })
-        this.props.history.push('/editPaper')
+        this.props.history.push('/main/editPaper')
     }
     handleInputSetPaperName(e) {
         this.setState({
