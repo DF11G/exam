@@ -9,7 +9,7 @@ class Page extends Component {
             <BrowserRouter>
                 <div>
                     <Route
-                        path='/' exact component={Font}
+                        path='/' component={Font}
                     ></Route>
                     <Route
                         path='/main' component={Main}
