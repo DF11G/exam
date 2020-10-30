@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, PageHeader } from 'antd';
 import "antd/dist/antd.css"
 
 import Login from './Components/Index/Login'
@@ -27,11 +27,16 @@ class Page extends Component {
                         </Menu>
                         </Header>
                         <Content style={{ padding: '0 50px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
+                        {/* <Breadcrumb style={{ margin: '16px 0' }}>
                             <Breadcrumb.Item><a href="register">Home</a></Breadcrumb.Item>
                             <Breadcrumb.Item><a href="register">List</a></Breadcrumb.Item>
                             <Breadcrumb.Item><a href="register">App</a></Breadcrumb.Item>
-                        </Breadcrumb>
+                        </Breadcrumb> */}
+                        <PageHeader
+                            className="site-page-header"
+                            onBack={() => null}
+                            title="登录"
+                        />
                         <div className="site-layout-content">
                             <Switch>
                                 <Route
