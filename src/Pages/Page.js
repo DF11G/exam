@@ -28,9 +28,9 @@ class Page extends Component {
                         </Header>
                         <Content style={{ padding: '0 50px' }}>
                         <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>Home</Breadcrumb.Item>
-                            <Breadcrumb.Item>List</Breadcrumb.Item>
-                            <Breadcrumb.Item>App</Breadcrumb.Item>
+                            <Breadcrumb.Item><a href="register">Home</a></Breadcrumb.Item>
+                            <Breadcrumb.Item><a href="register">List</a></Breadcrumb.Item>
+                            <Breadcrumb.Item><a href="register">App</a></Breadcrumb.Item>
                         </Breadcrumb>
                         <div className="site-layout-content">
                             <Switch>
