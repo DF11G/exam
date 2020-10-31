@@ -8,6 +8,7 @@ import Login from './Components/Index/Login'
 import Register from './Components/Index/Register'
 import ChangePassword from './Components/Index/ChangePassword'
 import UserInfoMenu from './Components/userInfo/UserInfoMenu'
+import CreatePaper from './Components/paper/CreatePaper'
 
 import './Page.css'
 
@@ -36,6 +37,9 @@ class Page extends Component {
                                     ></Route>
                                     <Route
                                         path='/changePassword' component={ChangePassword}
+                                    ></Route>
+                                    <Route
+                                        path='/createPaper' component={CreatePaper}
                                     ></Route>
                                     <Redirect exact to="/login" from='/' />
                                 </Switch>

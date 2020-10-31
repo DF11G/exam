@@ -71,6 +71,7 @@ class UserInfoMenu extends Component {
     this.state = store.getState()
     this.handleStoreChange = this.handleStoreChange.bind(this)
     store.subscribe(this.handleStoreChange)
+    console.log(this.state.name)
   }
 
 
