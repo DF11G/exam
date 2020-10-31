@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router-dom"
+import { withRouter, Link } from "react-router-dom"
 import Axios from 'axios'
-import { handleUserLogout } from '../Store/ActionCreators'
 import { Menu, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
-import store from '../Store/Index'
 import "antd/dist/antd.css"
+import store from '../Store/Index'
+import { handleUserLogout } from '../Store/ActionCreators'
 
 
 function LoginMenu(props) {
   let logout = () => {
     Axios.get('/exam/user/logout').then((res) => {
       if (res.data.code === 1) {
-        window.location.href = "/login"
         const action = handleUserLogout()
         store.dispatch(action)
+        props.props.history.push('/login')
       } else {
         alert('请求错误')
       }
-    }).catch(() => {
-      alert('服务器错误')
+    }).catch((e) => {
+      alert(e)
     })
   };
   let menuList = (
@@ -40,7 +40,7 @@ function LoginMenu(props) {
   return (
     <Dropdown overlay={menuList}>
       <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-        {props.name} <DownOutlined />
+        {props.props.name} <DownOutlined />
       </a>
     </Dropdown>
   );
@@ -48,15 +48,15 @@ function LoginMenu(props) {
 
 function NotLoginMenu() {
   return (
-    <a className="ant-dropdown-link" href="login">
+    <Link className="ant-dropdown-link" to="/login">
       点击此处登录 <DownOutlined />
-    </a>
+    </Link>
   );
 }
 
 function UserMenu(props) {
-  if (props.name != null) {
-    return <LoginMenu name={props.name} />;
+  if (props.props.name != null) {
+    return <LoginMenu props={props.props} />;
   } else {
     return <NotLoginMenu />;
   }
@@ -67,21 +67,12 @@ class UserInfoMenu extends Component {
   
   constructor(props) {
     super(props)
-    this.state = store.getState()
-    this.handleStoreChange = this.handleStoreChange.bind(this)
-    store.subscribe(this.handleStoreChange)
-  }
-
-
-
-  handleStoreChange() {
-    this.setState(store.getState())
   }
 
   render() {
     return (
       <div className="login">
-        <UserMenu name={this.state.name} />
+        <UserMenu props={this.props} />
       </div>
     )
   }

@@ -40,12 +40,11 @@ const dataState = {
 export default (state = dataState, action) => {
     if (action.type === GET_USER_INF) { // 登录获取用户名 更改登录状态
         const newState = JSON.parse(JSON.stringify(state))
-        newState.name = action.name
+        newState.name = action.userInfo.name
         newState.userType = action.value
         return newState
     } else if (action.type === LOG_OUT) { // 登出修改用户状态
-        const newState = JSON.parse(JSON.stringify(state))
-        newState.pageState = 0
+        const newState = JSON.parse('{}');
         newState.name = null
         return newState
     } else if (action.type === PASSWORD_CHANGE) { //清除修改密码缓存

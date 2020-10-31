@@ -6,6 +6,8 @@ import { Form, Input, Tooltip, Button, Select, PageHeader } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import "./Register.css"
 import '../Common.css'
+import store from '../Store/Index'
+import { handleGetUserInfAction } from '../Store/ActionCreators'
 const { Option } = Select
 
 
@@ -25,8 +27,10 @@ class Register extends Component {
       type: values.type
     }).then((res) => {
       if (res.data.code === 1) {
-          this.props.history.push('/main')
-          alert('注册成功')
+        const action = handleGetUserInfAction(res.data.object, res.data.code)
+        store.dispatch(action)
+        this.props.history.push('/main')
+        alert('注册成功')
       } else if (res.code === 4) {
           alert('账号重复')
       } else {
@@ -43,7 +47,7 @@ class Register extends Component {
 
         <PageHeader
             className="site-page-header"
-            onBack={() => window.history.back()}
+            onBack={() => this.props.history.goBack()}
             title="注册"
         />
 

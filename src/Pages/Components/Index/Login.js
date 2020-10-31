@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Axios from 'axios'
 
 import { Form, Input, Button, Checkbox, PageHeader } from 'antd';
@@ -22,7 +22,7 @@ class Login extends Component {
       "password": values.password
     }).then((res) => {
       if (res.data.code === 1) {
-        const action = handleGetUserInfAction(res.data.object.name, res.data.code)
+        const action = handleGetUserInfAction(res.data.object, res.data.code)
         store.dispatch(action)
         this.props.history.push('/main')
       } else if (res.data.code === 3) {
@@ -44,7 +44,7 @@ class Login extends Component {
           title="登录"
         />
         <Form
-          name="login_login"
+          name="login_form"
           className="login-form"
           initialValues={{
             remember: true,
@@ -82,15 +82,15 @@ class Login extends Component {
               <Checkbox>记住我</Checkbox>
             </Form.Item>
 
-            <a className="login-form-forgot" href="changePassword">
+            <Link className="login-form-forgot" to="changePassword">
               修改密码
-            </a>
+            </Link>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
               登录
             </Button>
-            Or <a href="register">立即注册!</a>
+            Or <Link to="register">立即注册!</Link>
           </Form.Item>
         </Form>
       </div>

@@ -1,61 +1,74 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import { withRouter } from "react-router-dom"
 
-import { Layout, Menu, PageHeader } from 'antd';
+import { Layout } from 'antd';
 import "antd/dist/antd.css"
 
-import Login from './Components/Index/Login'
-import Register from './Components/Index/Register'
-import ChangePassword from './Components/Index/ChangePassword'
-import UserInfoMenu from './Components/userInfo/UserInfoMenu'
-import CreatePaper from './Components/paper/CreatePaper'
 
-import Test from './Components/paper/PapersList'
+import UserInfoMenu from './Components/userInfo/UserInfoMenu'
+
+import Axios from 'axios'
+import store from './Components/Store/Index'
 
 import './Page.css'
 
 const { Header, Content, Footer } = Layout;
 
 class Page extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            name: null
+        }
+        this.handleStoreChange = this.handleStoreChange.bind(this)
+        store.subscribe(this.handleStoreChange)
+    }
+
+    handleStoreChange() {
+        this.setState({
+            name: store.getState().name
+        })
+      }
+
+    componentDidMount() {
+        let needNotLoginpages = new Set(['/login', '/changePassword', '/register'])
+        if(!needNotLoginpages.has(this.props.history.location.pathname) || this.state.name != null) {
+            Axios.get('/exam/user/getUserDetail').then((res) => {
+                if (res.data.code === 1) {
+                    let userDetail=res.data.object;
+                    this.setState({name: userDetail.name})
+                } else if(res.data.code === 6) {
+                    this.props.history.push('/login')
+                } else {
+                    alert('请求错误')
+                }
+            }).catch((e) => {
+                alert(e)
+            })
+        }
+    }
+
     render() {
         return (
-            <BrowserRouter>
-                <div>
-                    <Layout className="layout">
-                        <Header>
-                            <div className="logo" />
-                            <div className="page-menu">
-                                <UserInfoMenu></UserInfoMenu>
-                            </div>
-                        </Header>
-                        <Content style={{ padding: '0 50px' }}>
-                            <div>
-                                <Switch>
-                                    <Route
-                                        path='/login' component={Login}
-                                    ></Route>
-                                    <Route
-                                        path='/register' component={Register}
-                                    ></Route>
-                                    <Route
-                                        path='/changePassword' component={ChangePassword}
-                                    ></Route>
-                                    <Route
-                                        path='/createPaper' component={CreatePaper}
-                                    ></Route>
-                                    <Route
-                                        path='/test' component={Test}
-                                    ></Route>
-                                    <Redirect exact to="/login" from='/' />
-                                </Switch>
-                            </div>
-                        </Content>
-                        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-                    </Layout>
-                </div>
-            </BrowserRouter>
+            <div>
+                <Layout className="layout">
+                    <Header>
+                        <div className="logo" />
+                        <div className="page-menu">
+                            <UserInfoMenu name={this.state.name} history={this.props.history}></UserInfoMenu>
+                        </div>
+                    </Header>
+                    <Content style={{ padding: '0 50px' }}>
+                        <div>
+                            {this.props.children}
+                        </div>
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                </Layout>
+            </div>
         )
     }
 }
 
-export default Page
+export default withRouter(Page)

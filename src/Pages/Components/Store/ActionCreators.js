@@ -1,10 +1,10 @@
 import { GET_USER_INF, DELETE_REGISTER_INF, LOG_OUT, PASSWORD_CHANGE, HISTORY_URL, QUESTION, QUESTION_TYPE } from './ActionType'
 
 
-export const handleGetUserInfAction = (name, value) => {
+export const handleGetUserInfAction = (userInfo, value) => {
     return {
         type: GET_USER_INF,
-        name,
+        userInfo,
         value
     }
 }

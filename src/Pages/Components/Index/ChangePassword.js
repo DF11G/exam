@@ -21,7 +21,7 @@ class ChangePassword extends Component {
       newPassword: values.newPassword
     }).then((res) => {
       if (res.data.code === 1) {
-          this.props.history.push('/')
+          this.props.history.push('/login')
           alert('修改成功')
       } else if (res.code === 7) {
           alert('账号不存在或密码错误')
@@ -39,7 +39,7 @@ class ChangePassword extends Component {
       <div className="changePassword">
         <PageHeader
             className="site-page-header"
-            onBack={() => window.history.back()}
+            onBack={() => this.props.history.goBack()}
             title="修改密码"
         />
         <Form
