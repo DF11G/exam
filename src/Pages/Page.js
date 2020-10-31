@@ -10,6 +10,8 @@ import ChangePassword from './Components/Index/ChangePassword'
 import UserInfoMenu from './Components/userInfo/UserInfoMenu'
 import CreatePaper from './Components/paper/CreatePaper'
 
+import Test from './Components/paper/PapersList'
+
 import './Page.css'
 
 const { Header, Content, Footer } = Layout;
@@ -40,6 +42,9 @@ class Page extends Component {
                                     ></Route>
                                     <Route
                                         path='/createPaper' component={CreatePaper}
+                                    ></Route>
+                                    <Route
+                                        path='/test' component={Test}
                                     ></Route>
                                     <Redirect exact to="/login" from='/' />
                                 </Switch>

@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Collapse, PageHeader } from 'antd';
 import "antd/dist/antd.css"
 import Axios from 'axios'
-import './EditProblem.css'
+import '../Common.css'
 
 const { Panel } = Collapse;
 

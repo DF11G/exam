@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom"
 import { Form, Input, Tooltip, Button, Select, PageHeader } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import "./Register.css"
+import '../Common.css'
 const { Option } = Select
 
 

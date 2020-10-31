@@ -9,7 +9,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import store from '../Store/Index'
 import { handleGetUserInfAction } from '../Store/ActionCreators'
 import './Login.css'
-
+import '../Common.css'
 class Login extends Component {
 
   constructor(props) {

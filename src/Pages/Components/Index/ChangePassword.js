@@ -4,7 +4,7 @@ import Axios from 'axios'
 import { withRouter } from "react-router-dom"
 import { Form, Input, Button, PageHeader } from 'antd';
 import "./ChangePassword.css"
-
+import '../Common.css'
 
 
 class ChangePassword extends Component {
