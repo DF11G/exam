@@ -33,20 +33,20 @@ const dataState = {
     complexMaterialValue: '',//复合题材料
     isEditComplexQuestion: 0,//是否在编辑复合题,0为不编辑,1为正在编辑
     //
-    userTrueName: 'default',//登录用户姓名
+    name: null,//登录用户姓名
     userType: 1,//用户类型
 }
 
 export default (state = dataState, action) => {
     if (action.type === GET_USER_INF) { // 登录获取用户名 更改登录状态
         const newState = JSON.parse(JSON.stringify(state))
-        newState.userTrueName = action.name
+        newState.name = action.name
         newState.userType = action.value
-        console.log(newState.userType)
         return newState
     } else if (action.type === LOG_OUT) { // 登出修改用户状态
         const newState = JSON.parse(JSON.stringify(state))
         newState.pageState = 0
+        newState.name = null
         return newState
     } else if (action.type === PASSWORD_CHANGE) { //清除修改密码缓存
         const newState = JSON.parse(JSON.stringify(state))

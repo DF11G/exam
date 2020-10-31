@@ -1,22 +1,25 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom"
 import Axios from 'axios'
-
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { handleUserLogout } from '../Store/ActionCreators'
+import { Menu, Dropdown } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
+import store from '../Store/Index'
 import "antd/dist/antd.css"
 
 
 function LoginMenu(props) {
-   let logout=() => {
+  let logout = () => {
     Axios.get('/exam/user/logout').then((res) => {
-        if (res.data.code === 1) {
-          window.location.href="/login"
-        } else {
-            alert('请求错误')
-        }
+      if (res.data.code === 1) {
+        window.location.href = "/login"
+        const action = handleUserLogout()
+        store.dispatch(action)
+      } else {
+        alert('请求错误')
+      }
     }).catch(() => {
-        alert('服务器错误')
+      alert('服务器错误')
     })
   };
   let menuList = (
@@ -37,7 +40,7 @@ function LoginMenu(props) {
   return (
     <Dropdown overlay={menuList}>
       <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-        {props.name} <DownOutlined/>
+        {props.name} <DownOutlined />
       </a>
     </Dropdown>
   );
@@ -46,7 +49,7 @@ function LoginMenu(props) {
 function NotLoginMenu() {
   return (
     <a className="ant-dropdown-link" href="login">
-      点击此处登录 <DownOutlined/>
+      点击此处登录 <DownOutlined />
     </a>
   );
 }
@@ -59,24 +62,31 @@ function UserMenu(props) {
   }
 }
 
+
 class UserInfoMenu extends Component {
 
-    //todo 组件构造器内从redux中取登录的姓名来渲染
-    constructor(props) {
-      super(props)
-      this.state = {
-        name: null
-      }
-    }
+  //todo 组件构造器内从redux中取登录的姓名来渲染
+  constructor(props) {
+    super(props)
+    this.state = store.getState()
+    this.handleStoreChange = this.handleStoreChange.bind(this)
+    store.subscribe(this.handleStoreChange)
+  }
 
-    render() {
-      return (
-        <div className="login">
-          <UserMenu name={this.state.name} />
-        </div>
-      )
-    }
 
+
+  handleStoreChange() {
+    this.setState(store.getState())
+    console.log(store.getState())
+  }
+
+  render() {
+    return (
+      <div className="login">
+        <UserMenu name={this.state.name} />
+      </div>
+    )
+  }
 }
 
 export default withRouter(UserInfoMenu)
