@@ -9,6 +9,7 @@ import UserInfoMenu from './Components/userInfo/UserInfoMenu'
 
 import Axios from 'axios'
 import store from './Components/Store/Index'
+import { handleGetUserInfAction } from './Components/Store/ActionCreators'
 
 import './Page.css'
 
@@ -36,8 +37,8 @@ class Page extends Component {
         if(!needNotLoginpages.has(this.props.history.location.pathname) || this.state.name != null) {
             Axios.get('/exam/user/getUserDetail').then((res) => {
                 if (res.data.code === 1) {
-                    let userDetail=res.data.object;
-                    this.setState({name: userDetail.name})
+                    const action = handleGetUserInfAction(res.data.object, res.data.code)
+                    store.dispatch(action)
                 } else if(res.data.code === 6) {
                     this.props.history.push('/login')
                 } else {
