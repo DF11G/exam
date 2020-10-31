@@ -4,6 +4,8 @@ import Axios from 'axios'
 import { withRouter } from "react-router-dom"
 import { Form, Input, Button, PageHeader } from 'antd';
 import "./ChangePassword.css"
+import store from '../Store/Index'
+import { handleUserLogout } from '../Store/ActionCreators'
 import '../Common.css'
 
 
@@ -21,6 +23,8 @@ class ChangePassword extends Component {
       newPassword: values.newPassword
     }).then((res) => {
       if (res.data.code === 1) {
+        const action = handleUserLogout()
+        store.dispatch(action)
           this.props.history.push('/login')
           alert('修改成功')
       } else if (res.code === 7) {

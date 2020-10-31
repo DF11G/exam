@@ -34,6 +34,11 @@ function LoginMenu(props) {
           创建的试卷
         </a>
       </Menu.Item>
+      <Menu.Item>
+        <Link to="/changePassword">
+          修改密码
+        </Link>
+      </Menu.Item>
       <Menu.Item danger onClick={logout}>登出</Menu.Item>
     </Menu>
   );
