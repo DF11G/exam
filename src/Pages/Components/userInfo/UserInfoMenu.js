@@ -64,21 +64,18 @@ function UserMenu(props) {
 
 
 class UserInfoMenu extends Component {
-
-  //todo 组件构造器内从redux中取登录的姓名来渲染
+  
   constructor(props) {
     super(props)
     this.state = store.getState()
     this.handleStoreChange = this.handleStoreChange.bind(this)
     store.subscribe(this.handleStoreChange)
-    console.log(this.state.name)
   }
 
 
 
   handleStoreChange() {
     this.setState(store.getState())
-    console.log(store.getState())
   }
 
   render() {
