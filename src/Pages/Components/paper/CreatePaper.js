@@ -96,6 +96,7 @@ class CreatePaper extends Component {
             <div>
                 <PageHeader
                     className="site-page-header"
+                    onBack={() => this.props.history.goBack()}
                     title="创建试卷"
                 />
                 <Form

@@ -14,7 +14,7 @@ function LoginMenu(props) {
       if (res.data.code === 1) {
         const action = handleUserLogout()
         store.dispatch(action)
-        props.props.history.push('/login')
+        props.history.push('/login')
       } else {
         alert('请求错误')
       }
@@ -22,16 +22,16 @@ function LoginMenu(props) {
       alert(e)
     })
   };
-  let menuList = (
+  let teacherMenu = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-          作答过的试卷
-        </a>
+        <Link to="/createPaper">
+          创建试卷
+        </Link>
       </Menu.Item>
       <Menu.Item>
         <Link to="/papersList">
-          创建的试卷
+          管理试卷
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -42,10 +42,38 @@ function LoginMenu(props) {
       <Menu.Item danger onClick={logout}>登出</Menu.Item>
     </Menu>
   );
+  let studentMenu = (
+    <Menu>
+      <Menu.Item>
+        <Link to="/createPaper">
+          作答试卷
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/papersList">
+          历史作答
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/changePassword">
+          修改密码
+        </Link>
+      </Menu.Item>
+      <Menu.Item danger onClick={logout}>登出</Menu.Item>
+    </Menu>
+  );
+  let menu;
+  if(props.type === 1) {
+    menu = teacherMenu
+  } else if(props.type === 2) {
+    menu = studentMenu
+  } else {
+    menu = null
+  }
   return (
-    <Dropdown overlay={menuList}>
+    <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-        {props.props.name} <DownOutlined />
+        {props.name} <DownOutlined />
       </a>
     </Dropdown>
   );
@@ -59,25 +87,24 @@ function NotLoginMenu() {
   );
 }
 
-function UserMenu(props) {
-  if (props.props.name != null) {
-    return <LoginMenu props={props.props} />;
-  } else {
-    return <NotLoginMenu />;
-  }
-}
-
-
 class UserInfoMenu extends Component {
   
   constructor(props) {
     super(props)
   }
 
+  UserMenu() {
+    if (this.props.name != null) {
+      return <LoginMenu name={this.props.name} type={this.props.type} history={this.props.history} />;
+    } else {
+      return <NotLoginMenu />;
+    }
+  }
+
   render() {
     return (
       <div className="login">
-        <UserMenu props={this.props} />
+        {this.UserMenu()}
       </div>
     )
   }

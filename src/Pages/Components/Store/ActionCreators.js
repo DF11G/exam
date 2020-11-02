@@ -13,27 +13,4 @@ export const handleUserLogout = () => {
         type: LOG_OUT
     }
 }
-export const handleDeleteRegisterInf = () => {
-    return {
-        type: DELETE_REGISTER_INF,
-    }
-}
-export const handleChangePassword = () => {
-    return {
-        type: PASSWORD_CHANGE
-    }
-}
-
-export const handleQuestion = (value) => {
-    return {
-        type: QUESTION,
-        value
-    }
-}
-export const handleQuestionType = (value) => {
-    return {
-        type: QUESTION_TYPE,
-        value
-    }
-}
 

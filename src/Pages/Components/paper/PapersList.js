@@ -13,10 +13,13 @@ class PapersList extends Component {
         data: null,
         deletePaper: null,
       }
-      this.getPapersList()
     }
 
-    getPapersList() {
+    componentDidMount() {
+      this.getPapersListRequest()
+    }
+
+    getPapersListRequest() {
       Axios.get('/exam/paper/get').then((res) => {
         if (res.data.code === 1) {
           this.setState({
@@ -35,12 +38,12 @@ class PapersList extends Component {
       })
     }
 
-    deletePaper() {
+    deletePaperRequest() {
       Axios.delete('/exam/paper/delete?paperId='+this.state.deletePaper.id)
       .then((res) => {
         if (res.data.code === 1) {
           message.success('删除成功！')
-          this.getPapersList()
+          this.getPapersListRequest()
         } else if(res.data.code === 6) {
           alert('重新登录')
         } else {
@@ -105,7 +108,7 @@ class PapersList extends Component {
       ];
 
       handleOk = e => {
-        this.deletePaper()
+        this.deletePaperRequest()
       };
     
     render() {
@@ -113,7 +116,8 @@ class PapersList extends Component {
             <div>
               <PageHeader
                   className="site-page-header"
-                  title="创建试卷"
+                  onBack={() => this.props.history.goBack()}
+                  title="管理试卷"
               />
               <Table columns={this.columns} dataSource={this.state.data} pagination={false}/>
               <Modal
@@ -124,6 +128,8 @@ class PapersList extends Component {
                   this.setState({
                     deletePaper: null,
                   })}}
+                okText="确认删除"
+                cancelText="取消"
               >
                 <p>您确定要删除此试卷？删除后将不可恢复！</p>
               </Modal>

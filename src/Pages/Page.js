@@ -20,7 +20,8 @@ class Page extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: null
+            name: null,
+            type: null
         }
         this.handleStoreChange = this.handleStoreChange.bind(this)
         store.subscribe(this.handleStoreChange)
@@ -28,26 +29,27 @@ class Page extends Component {
 
     handleStoreChange() {
         this.setState({
-            name: store.getState().name
+            name: store.getState().name,
+            type: store.getState().type
         })
       }
 
     componentDidMount() {
         let needNotLoginpages = new Set(['/login', '/changePassword', '/register'])
-        if(!needNotLoginpages.has(this.props.history.location.pathname) || this.state.name != null) {
-            Axios.get('/exam/user/getUserDetail').then((res) => {
-                if (res.data.code === 1) {
-                    const action = handleGetUserInfAction(res.data.object, res.data.code)
-                    store.dispatch(action)
-                } else if(res.data.code === 6) {
+        Axios.get('/exam/user/getUserDetail').then((res) => {
+            if (res.data.code === 1) {
+                const action = handleGetUserInfAction(res.data.object, res.data.code)
+                store.dispatch(action)
+            } else if(res.data.code === 6) {
+                if(!needNotLoginpages.has(this.props.history.location.pathname)) {
                     this.props.history.push('/login')
-                } else {
-                    alert('请求错误')
                 }
-            }).catch((e) => {
-                alert(e)
-            })
-        }
+            } else {
+                alert('请求错误')
+            }
+        }).catch((e) => {
+            alert(e)
+        })
     }
 
     render() {
@@ -57,7 +59,7 @@ class Page extends Component {
                     <Header>
                         <div className="logo" />
                         <div className="page-menu">
-                            <UserInfoMenu name={this.state.name} history={this.props.history}></UserInfoMenu>
+                            <UserInfoMenu name={this.state.name} type={this.state.type} history={this.props.history}></UserInfoMenu>
                         </div>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
