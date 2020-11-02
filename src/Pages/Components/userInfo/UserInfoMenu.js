@@ -30,9 +30,9 @@ function LoginMenu(props) {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+        <Link to="/papersList">
           创建的试卷
-        </a>
+        </Link>
       </Menu.Item>
       <Menu.Item>
         <Link to="/changePassword">
