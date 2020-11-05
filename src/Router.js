@@ -8,6 +8,7 @@ import ChangePassword from './Pages/Components/Index/ChangePassword'
 
 import CreatePaper from './Pages/Components/paper/CreatePaper'
 import PapersList from './Pages/Components/paper/PapersList'
+import EditProblem from './Pages/Components/paper/EditProblem'
 
 
 class BasicRoute extends Component {
@@ -35,6 +36,9 @@ class BasicRoute extends Component {
                         ></Route>
                         <Route
                             path='/papersList' component={PapersList}
+                        ></Route>
+                        <Route
+                            path='/editProblem' component={EditProblem}
                         ></Route>
                     </Page>
                 </Switch>

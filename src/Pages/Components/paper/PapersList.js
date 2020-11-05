@@ -94,13 +94,16 @@ class PapersList extends Component {
           key: 'action',
           render: (text, record) => (
             <Space size="middle">
-              <a>编辑</a>
               <a onClick={() => {
-                console.log(record)
+                this.props.history.push({
+                  pathname: '/editProblem',
+                  paperId: record.id
+                })
+              }}>编辑</a>
+              <a onClick={() => {
                 this.setState({
                   deletePaper: record
-                })
-              }}>删除</a>
+                })}}>删除</a>
               <a>复制作答链接</a>
             </Space>
           ),
