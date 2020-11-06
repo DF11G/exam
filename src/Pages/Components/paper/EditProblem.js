@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-import { Collapse, PageHeader, Button } from 'antd';
+import { Collapse, PageHeader, Button, Checkbox } from 'antd';
 import "antd/dist/antd.css"
 import Axios from 'axios'
 import '../Common.css'
 import CreateProblem from './CreateProblem'
+import { DeleteOutlined } from '@ant-design/icons';
 
 const { Panel } = Collapse;
 
@@ -14,7 +15,8 @@ class EditProblem extends Component {
         super(props)
         this.state = {
             visible: false,
-            paper: null
+            paper: null,
+            polymerizationProblemId: null
         }
     }
 
@@ -43,12 +45,26 @@ class EditProblem extends Component {
           })
     }
 
-    genExtra = () => (
-        <Button type="primary" onClick={(e)=>{ 
-            console.log(this.props.history.location.paperId)
-            e.stopPropagation()}} danger>
-            删除
-        </Button>
+    deleteProblemRequest = (paperId, problemId) => {
+        Axios.delete('/exam/paper/deleteProblem?paperId='+paperId+'&problemId='+problemId).then((res) => {
+            if (res.data.code === 1) {
+                this.setState({
+                    paper: res.data.object
+                })
+            } else if(res.data.code === 5) {
+              alert('没有')
+            } else {
+              alert('请求错误')
+            }
+          }).catch(() => {
+            alert('服务器错误')
+          })
+    }
+
+    deleteButton = (problemId) => (
+        <DeleteOutlined onClick={(e)=>{
+            this.deleteProblemRequest(this.props.history.location.paperId, problemId)
+            e.stopPropagation()}} />
       );
 
     callback(key) {
@@ -68,18 +84,62 @@ class EditProblem extends Component {
           visible: false,
         });
       };
+
+      polymerizationProblemList = (polymerizationProblem) => {
+        let problems = polymerizationProblem.problems
+        let other = (problem)=>{
+            if(problem.type === 1) {
+                let choices = JSON.parse(problem.answer)
+                return choices.map((choice)=><Checkbox>{choice}</Checkbox>);
+            } else {
+                return null;
+            }
+        }
+        let problemList = problems.map((problem)=>
+            <Panel header={'第'+problem.sort+'题'} key={problem.sort} extra={this.deleteButton(problem.id)}>
+                <h1>{problem.title}</h1>
+                <p>{problem.material}</p>
+                {other(problem)}
+            </Panel>
+        )
+        return (
+            <div>
+            <Collapse>
+                {problemList}
+            </Collapse>
+            <Button className="content-button" type="primary" onClick={()=>{
+                this.setState({
+                    visible: true,
+                    polymerizationProblemId: polymerizationProblem.id
+                })
+            }}>创建新试题</Button>
+            </div>
+        )
+      }
       
+
+
     problemList = () => {
         if(this.state.paper != null) { 
             let problems = this.state.paper.problems
+            problems = problems.concat(this.state.paper.polymerizationProblems)
+            let other = (problem)=>{
+                if(problem.type === 1) {
+                    let choices = JSON.parse(problem.answer)
+                    return choices.map((choice)=><Checkbox>{choice}</Checkbox>);
+                } else if(problem.type == null) {
+                    return this.polymerizationProblemList(problem);
+                }
+            }
             let listItem = problems.map((problem) => 
-                <Panel header={'第'+problem.sort+'题'} key={problem.sort}>
+                <Panel header={'第'+problem.sort+'题'} key={problem.sort} extra={this.deleteButton(problem.id)}>
                     <h1>{problem.title}</h1>
                     <p>{problem.material}</p>
+                    {other(problem)}
                 </Panel>
             )
             return (
-                <Collapse onChange={this.callback}>
+                <Collapse>
                     {listItem}
                 </Collapse>
             )
@@ -99,12 +159,14 @@ class EditProblem extends Component {
                 <this.problemList></this.problemList>
                 <Button className="content-button" type="primary" onClick={()=>{
                     this.setState({
-                        visible: true
+                        visible: true,
+                        polymerizationProblemId: null
                     })
                 }}>创建新试题</Button>
                 <CreateProblem 
                     visible={this.state.visible}
                     paperId={this.props.history.location.paperId} 
+                    polymerizationProblemId={this.state.polymerizationProblemId}
                     visibleChange={() => {
                         this.setState({
                             visible: !this.state.visible

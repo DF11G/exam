@@ -144,6 +144,25 @@ class CreateProblem extends Component {
         }
     }
 
+    problemTypeRadio= (polymerizationProblemId) => {
+        if(polymerizationProblemId != null) {
+            return (
+                <>
+                    <Radio.Button value={CHOICE_PROBLEM_TYPE}>选择题</Radio.Button>
+                    <Radio.Button value={MATERIAL_PROBLEM_TYPE}>材料题</Radio.Button>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <Radio.Button value={CHOICE_PROBLEM_TYPE}>选择题</Radio.Button>
+                    <Radio.Button value={MATERIAL_PROBLEM_TYPE}>材料题</Radio.Button>
+                    <Radio.Button value={POLYMERIZATION_PROBLEM_TYPE}>组合题</Radio.Button>
+                </>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
@@ -168,9 +187,7 @@ class CreateProblem extends Component {
                                 })
                             }}
                         >
-                            <Radio.Button value={CHOICE_PROBLEM_TYPE}>选择题</Radio.Button>
-                            <Radio.Button value={MATERIAL_PROBLEM_TYPE}>材料题</Radio.Button>
-                            <Radio.Button value={POLYMERIZATION_PROBLEM_TYPE}>组合题</Radio.Button>
+                            {this.problemTypeRadio(this.props.polymerizationProblemId)}
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item
