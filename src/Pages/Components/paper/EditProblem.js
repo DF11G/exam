@@ -45,8 +45,14 @@ class EditProblem extends Component {
           })
     }
 
-    deleteProblemRequest = (paperId, problemId) => {
-        Axios.delete('/exam/paper/deleteProblem?paperId='+paperId+'&problemId='+problemId).then((res) => {
+    deleteProblemRequest = (paperId, problem) => {
+        let url
+        if(problem.type != null) {
+            url = '/exam/paper/deleteProblem?paperId='+paperId+'&problemId='+problem.id
+        } else {
+            url = '/exam/paper/deletePolymerizationProblem?paperId='+paperId+'&polymerizationProblemId='+problem.id
+        }
+        Axios.delete(url).then((res) => {
             if (res.data.code === 1) {
                 this.setState({
                     paper: res.data.object
@@ -61,9 +67,9 @@ class EditProblem extends Component {
           })
     }
 
-    deleteButton = (problemId) => (
+    deleteButton = (problem) => (
         <DeleteOutlined onClick={(e)=>{
-            this.deleteProblemRequest(this.props.history.location.paperId, problemId)
+            this.deleteProblemRequest(this.props.history.location.paperId, problem)
             e.stopPropagation()}} />
       );
 
@@ -96,7 +102,7 @@ class EditProblem extends Component {
             }
         }
         let problemList = problems.map((problem)=>
-            <Panel header={'第'+problem.sort+'题'} key={problem.sort} extra={this.deleteButton(problem.id)}>
+            <Panel header={'第'+problem.sort+'题'} key={problem.sort} extra={this.deleteButton(problem)}>
                 <h1>{problem.title}</h1>
                 <p>{problem.material}</p>
                 {other(problem)}
@@ -132,7 +138,7 @@ class EditProblem extends Component {
                 }
             }
             let listItem = problems.map((problem) => 
-                <Panel header={'第'+problem.sort+'题'} key={problem.sort} extra={this.deleteButton(problem.id)}>
+                <Panel header={'第'+problem.sort+'题'} key={problem.sort} extra={this.deleteButton(problem)}>
                     <h1>{problem.title}</h1>
                     <p>{problem.material}</p>
                     {other(problem)}
