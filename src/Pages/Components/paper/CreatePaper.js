@@ -27,7 +27,10 @@ class CreatePaper extends Component {
           "collection": JSON.stringify(this.state.collection)
         }).then((res) => {
           if (res.data.code === 1) {
-            alert('ok')
+            this.props.history.push({
+              pathname: '/editProblem',
+              paperId: res.data.object.id
+            })
           } else if(res.data.code === 6) {
             alert('重新登录')
           } else {
