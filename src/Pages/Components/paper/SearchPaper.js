@@ -1,0 +1,103 @@
+import React, { Component } from 'react'
+import { withRouter } from "react-router-dom";
+import Axios from 'axios'
+import { Row, Col, Input, Button, PageHeader, Statistic } from 'antd';
+import "antd/dist/antd.css"
+import '../Common.css'
+
+const { Search } = Input;
+
+class SearchPaper extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            paper: null
+        }
+    }
+
+    searchPaperRequest = (code) => {
+        Axios.get('/exam/paper/getByCode?code='+code).then((res) => {
+            if (res.data.code === 1) {
+                this.setState({
+                    paper: res.data.object
+                })
+            } else if(res.data.code === 5) {
+                alert('没找到此试卷')
+            } else if(res.data.code === 6) {
+                alert('重新登录')
+            } else {
+                alert('请求错误')
+            }
+        }).catch(() => {
+            alert('服务器错误')
+        })
+    }
+
+    onSearch = (value) => {
+        this.searchPaperRequest(value)
+    }
+
+    showPaper = (props) => {
+        if(props.paper == null) {
+            return null
+        } else {
+            let paper = props.paper
+            return (
+                <div>
+                    <Row>
+                        <Col span={6}>
+                            <Statistic title="试卷标题" value={paper.title} />
+                        </Col>
+                        <Col span={6}>
+                            <Statistic title="作答时长" value={paper.time + '分钟'} />
+                        </Col>
+                        <Col span={6}>
+                            <Statistic title="创建人" value={paper.creator.name} />
+                        </Col>
+                        <Col span={6}>
+                            <br></br>
+                            <Button type="primary" onClick={() => {
+                                this.props.history.push({
+                                    pathname: '/answerPaper',
+                                    paper: this.state.paper
+                                })
+                            }}>
+                                开始作答
+                            </Button>
+                        </Col>
+                    </Row>
+                </div>
+            )
+        }
+    }
+
+    render() {
+        return(
+            <div>
+                <PageHeader
+                    className="site-page-header"
+                    onBack={() => this.props.history.goBack()}
+                    title="搜索试卷"
+                />
+                <Search
+                    placeholder="输入试卷编号"
+                    allowClear
+                    enterButton="搜索"
+                    size="large"
+                    onSearch={this.onSearch}
+                    onChange={() => {
+                        this.setState({
+                            paper: null
+                        })
+                    }}
+                    maxLength='6'
+                />
+                <this.showPaper paper={this.state.paper} />
+            </div>
+        );
+    }
+
+}
+
+export default withRouter(SearchPaper)

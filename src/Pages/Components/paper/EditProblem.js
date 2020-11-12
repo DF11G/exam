@@ -159,7 +159,7 @@ class EditProblem extends Component {
             <div className="createPaper">
                 <PageHeader
                     className="site-page-header"
-                    title="创建试卷"
+                    title="编辑试题"
                     onBack={() => this.props.history.goBack()} 
                 />
                 <this.problemList></this.problemList>

@@ -45,12 +45,12 @@ function LoginMenu(props) {
   let studentMenu = (
     <Menu>
       <Menu.Item>
-        <Link to="/createPaper">
+        <Link to="/searchPaper">
           作答试卷
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/papersList">
+        <Link to="/paperAnswerList">
           历史作答
         </Link>
       </Menu.Item>

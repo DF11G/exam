@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-import { Input, PageHeader, InputNumber, Form, Tag, Button } from 'antd';
+import { Input, PageHeader, InputNumber, Form, Tag, Button, Modal } from 'antd';
 import "antd/dist/antd.css"
 import Axios from 'axios'
 import '../Common.css'
@@ -16,6 +16,8 @@ class CreatePaper extends Component {
             collection: ['姓名'],
             inputVisible: false,
             inputValue: '',
+            modalVisible: false,
+            paperId: null
         }
     }
 
@@ -27,9 +29,9 @@ class CreatePaper extends Component {
           "collection": JSON.stringify(this.state.collection)
         }).then((res) => {
           if (res.data.code === 1) {
-            this.props.history.push({
-              pathname: '/editProblem',
-              paperId: res.data.object.id
+            this.setState({
+              paperId: res.data.object.id,
+              modalVisible: true
             })
           } else if(res.data.code === 6) {
             alert('重新登录')
@@ -73,6 +75,23 @@ class CreatePaper extends Component {
         this.input = input;
       };
     
+      handleModalOk = e => {
+        this.setState({
+          modalVisible: false,
+        });
+        this.props.history.push({
+          pathname: '/editProblem',
+          paperId: this.state.paperId
+        })
+      };
+    
+      handleModalCancel = e => {
+        this.setState({
+          modalVisible: false,
+        });
+        this.props.history.push("/papersList")
+      };
+
       forMap = tag => {
         const tagElem = (
           <Tag
@@ -156,6 +175,14 @@ class CreatePaper extends Component {
                         </Button>
                     </Form.Item>
                 </Form>
+                <Modal
+                  title="创建试卷"
+                  visible={this.state.modalVisible}
+                  onOk={this.handleModalOk}
+                  onCancel={this.handleModalCancel}
+                >
+                  <p>是否进入试题编辑界面？也可稍后在管理试卷页面中进行编辑</p>
+                </Modal>
             </div>
         )
     }

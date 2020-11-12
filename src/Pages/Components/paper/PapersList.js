@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, withRouter } from "react-router-dom";
-import { Table, Tag, Space, PageHeader, message, Modal } from 'antd';
+import { Table, Switch, Space, PageHeader, message, Modal } from 'antd';
 import Axios from 'axios'
 
 import '../Common.css'
@@ -70,22 +70,42 @@ class PapersList extends Component {
           title: '试卷状态',
           key: 'state',
           dataIndex: 'state',
-          render: state => {
-            let color, tag;
-            if(state === 1) {
-                color = 'red'
-                tag = '创建中' 
-            } else if(state === 2) {
-                color = 'green'
-                tag = '作答中'
-            } else if(state == 3) {
-                color = 'grey'
-                tag = '删除'
+          render: (state, record) => {
+            let isChecked
+            if(state === 2) {
+              isChecked = true
+            } else {
+              isChecked = false
             }
-            return (
-                <Tag color={color} key={tag}>
-                    {tag}
-                </Tag>
+            return (  
+              <Switch checkedChildren="开启作答" unCheckedChildren="关闭作答" 
+                defaultChecked={isChecked}
+                onChange={(checked, event) => {
+                  let newState
+                  if(checked == true) {
+                    newState = 2 
+                  } else {
+                    newState = 1
+                  }
+                  Axios.post('/exam/paper/changePaperState', {
+                    paperId: record.id,
+                    state: newState
+                  })
+                  .then((res) => {
+                    if (res.data.code === 1) {
+                      message.success('变更成功！')
+                      this.getPapersListRequest()
+                    } else if(res.data.code === 6) {
+                      alert('重新登录')
+                    } else {
+                      alert('请求错误')
+                    }
+                  }).catch(() => {
+                    alert('服务器错误')
+                    this.getPapersListRequest()
+                  })
+                }}
+              />
             );
           },
         },
@@ -94,17 +114,18 @@ class PapersList extends Component {
           key: 'action',
           render: (text, record) => (
             <Space size="middle">
+              
               <a onClick={() => {
                 this.props.history.push({
                   pathname: '/editProblem',
                   paperId: record.id
                 })
-              }}>编辑</a>
+              }}>编辑试题</a>
               <a onClick={() => {
                 this.setState({
                   deletePaper: record
                 })}}>删除</a>
-              <a>复制作答链接</a>
+              
             </Space>
           ),
         },
