@@ -114,7 +114,6 @@ class PapersList extends Component {
           key: 'action',
           render: (text, record) => (
             <Space size="middle">
-              
               <a onClick={() => {
                 this.props.history.push({
                   pathname: '/editProblem',
@@ -125,7 +124,10 @@ class PapersList extends Component {
                 this.setState({
                   deletePaper: record
                 })}}>删除</a>
-              
+                <a 
+                  href={'/exam/export/exportPaper?paperId=' + record.id}
+                  download={record.title}
+                >导出</a>
             </Space>
           ),
         },

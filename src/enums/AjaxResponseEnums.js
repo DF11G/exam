@@ -24,3 +24,5 @@ CREATE_NOT_ALLOW_ACCOUNT_TYPE(22, "创建不允许的账号类型"),
 GET_OTHERS_PAPER_ANSWER(23, "获取他人试卷"),
 PAPER_STATE_FROM_ANSWERING_TO_CREATING(24, "试卷状态不允许从作答修改回创建状态"),
 PAPER_STATE_FROM_DELETE_TO_OTHERS(25, "试卷状态不允许从删除状态修改为其他状态");
+
+export const LOG_OUT = 'log_out'

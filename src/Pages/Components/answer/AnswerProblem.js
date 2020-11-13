@@ -15,6 +15,8 @@ class AnswerProblem extends Component {
         this.state = {
             totalTime: 0,
             editTime: 0,
+            isEdit: false,
+            isEditTime: 0,
             remainTime: 100,
             paperAnswer: null,
             answeringProblem: null
@@ -65,7 +67,9 @@ class AnswerProblem extends Component {
             if (res.data.code === 1) {
                 if(res.data.object != null) {
                     this.setState({
-                        answeringProblem: res.data.object
+                        answeringProblem: res.data.object,
+                        totalTime: 0,
+                        isEdit: false
                     })
                 } else {
                     alert('作答结束')
@@ -98,9 +102,19 @@ class AnswerProblem extends Component {
     tick() {
         this.setState({
             totalTime: this.state.totalTime + 1,
-            editTime: this.state.editTime + 1,
             remainTime: this.state.remainTime - 1
         });
+        if(this.state.isEdit) {
+            if(this.state.isEditTime >= 4) {
+                this.setState({
+                    isEdit: false,
+                })
+            }
+            this.setState({
+                editTime: this.state.editTime + 1,
+                isEditTime: this.state.isEditTime + 1
+            })
+        }
     }
 
     problemAnswerForm = (props) => {
@@ -119,7 +133,14 @@ class AnswerProblem extends Component {
         } else {
             content = (
                 <div>
-                    <TextArea rows={4}></TextArea>
+                    <TextArea rows={4} 
+                        onChange={(value) => {
+                            this.setState({
+                                isEdit: true,
+                                isEditTime: 0
+                            })
+                        }}
+                    ></TextArea>
                 </div>
             )
         }
