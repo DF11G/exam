@@ -46,7 +46,8 @@ class AnswerProblem extends Component {
         Axios.get('/exam/answer/getPaperAnswerDetail?paperAnswerId=' + paperAnswerId).then((res) => {
             if (res.data.code === 1) {
                 this.setState({
-                    paperAnswer: res.data.object
+                    paperAnswer: res.data.object,
+                    remainTime:  res.data.object.paper.time * 60 - res.data.object.totalTime
                 })
                 //根据答卷获取当前作答的题目
                 this.getProblemRequest(res.data.object)
