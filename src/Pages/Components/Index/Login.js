@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from "react-router-dom";
 import Axios from 'axios'
-import { ajaxReturn } from '../../Ajax'
 import { Form, Input, Button, Checkbox, PageHeader } from 'antd';
 import "antd/dist/antd.css"
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import store from '../Store/Index'
 import { handleGetUserInfAction } from '../Store/ActionCreators'
 import '../Common.css'
+import { ajaxReturn } from '../../Ajax'
 class Login extends Component {
 
   constructor(props) {
@@ -28,11 +28,22 @@ class Login extends Component {
   }
 
   onFinish = (values) => {
+    var a = this
     Axios.post('/exam/user/loginCheck', {
       "account": values.account,
       "password": values.password
     }).then((res) => {
-      ajaxReturn(res.data.code, this.success(res))
+      ajaxReturn(res.data.code, () => {
+        const action = handleGetUserInfAction(res.data.object, res.data.code)
+        store.dispatch(action)
+        console.log(res)
+        console.log(this)
+        if (res.data.object.type === 1) {
+          this.props.history.push('/papersList')
+        } else {
+          this.props.history.push('/searchPaper')
+        }
+      })
       // if (res.data.code === 1) {
       //   const action = handleGetUserInfAction(res.data.object, res.data.code)
       //   store.dispatch(action)
@@ -48,7 +59,7 @@ class Login extends Component {
       //   alert('请求错误')
       // }
     }).catch(() => {
-      alert('这是catch！')
+      alert('服务器错误')
     })
   }
 
@@ -113,7 +124,6 @@ class Login extends Component {
       </div>
     )
   }
-
 }
 
 export default withRouter(Login)
