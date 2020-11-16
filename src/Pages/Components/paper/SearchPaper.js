@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
 import Axios from 'axios'
-import { Row, Col, Input, Button, PageHeader, Statistic } from 'antd';
+import { Row, Col, Input, Button, PageHeader, Statistic, Form } from 'antd';
 import "antd/dist/antd.css"
 import '../Common.css'
 
@@ -17,14 +17,14 @@ class SearchPaper extends Component {
     }
 
     searchPaperRequest = (code) => {
-        Axios.get('/exam/paper/getByCode?code='+code).then((res) => {
+        Axios.get('/exam/paper/getByCode?code=' + code).then((res) => {
             if (res.data.code === 1) {
                 this.setState({
                     paper: res.data.object
                 })
-            } else if(res.data.code === 5) {
+            } else if (res.data.code === 5) {
                 alert('没找到此试卷')
-            } else if(res.data.code === 6) {
+            } else if (res.data.code === 6) {
                 alert('重新登录')
             } else {
                 alert('请求错误')
@@ -39,7 +39,7 @@ class SearchPaper extends Component {
     }
 
     showPaper = (props) => {
-        if(props.paper == null) {
+        if (props.paper == null) {
             return null
         } else {
             let paper = props.paper
@@ -73,27 +73,35 @@ class SearchPaper extends Component {
     }
 
     render() {
-        return(
+        return (
             <div>
+
                 <PageHeader
                     className="site-page-header"
                     onBack={() => this.props.history.goBack()}
                     title="搜索试卷"
                 />
-                <Search
-                    placeholder="输入试卷编号"
-                    allowClear
-                    enterButton="搜索"
-                    size="large"
-                    onSearch={this.onSearch}
-                    onChange={() => {
-                        this.setState({
-                            paper: null
-                        })
+                <Form
+                    className="login-form"
+                    initialValues={{
+                        remember: true,
                     }}
-                    maxLength='6'
-                />
-                <this.showPaper paper={this.state.paper} />
+                >
+                    <Search
+                        placeholder="输入试卷编号"
+                        allowClear
+                        enterButton="搜索"
+                        size="large"
+                        onSearch={this.onSearch}
+                        onChange={() => {
+                            this.setState({
+                                paper: null
+                            })
+                        }}
+                        maxLength='6'
+                    />
+                    <this.showPaper paper={this.state.paper} />
+                </Form>
             </div>
         );
     }

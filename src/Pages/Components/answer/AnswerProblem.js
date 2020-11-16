@@ -24,7 +24,7 @@ class AnswerProblem extends Component {
     }
 
     componentDidMount() {
-        if(this.props.history.location.paperAnswerId == null) {
+        if (this.props.history.location.paperAnswerId == null) {
             this.props.history.push('/searchPaper')
         } else {
             //根据路由中的答卷id获取答卷
@@ -47,13 +47,13 @@ class AnswerProblem extends Component {
             if (res.data.code === 1) {
                 this.setState({
                     paperAnswer: res.data.object,
-                    remainTime:  res.data.object.paper.time * 60 - res.data.object.totalTime
+                    remainTime: res.data.object.paper.time * 60 - res.data.object.totalTime
                 })
                 //根据答卷获取当前作答的题目
                 this.getProblemRequest(res.data.object)
-            } else if(res.data.code === 5) {
+            } else if (res.data.code === 5) {
                 alert('没找到此试卷')
-            } else if(res.data.code === 6) {
+            } else if (res.data.code === 6) {
                 alert('重新登录')
             } else {
                 alert('请求错误')
@@ -66,7 +66,7 @@ class AnswerProblem extends Component {
     getProblemRequest = (paperAnswer) => {
         Axios.get('/exam/answer/getNextProblem?paperAnswerId=' + paperAnswer.id).then((res) => {
             if (res.data.code === 1) {
-                if(res.data.object != null) {
+                if (res.data.object != null) {
                     this.setState({
                         answeringProblem: res.data.object,
                         totalTime: 0,
@@ -105,8 +105,8 @@ class AnswerProblem extends Component {
             totalTime: this.state.totalTime + 1,
             remainTime: this.state.remainTime - 1
         });
-        if(this.state.isEdit) {
-            if(this.state.isEditTime >= 4) {
+        if (this.state.isEdit) {
+            if (this.state.isEditTime >= 4) {
                 this.setState({
                     isEdit: false,
                 })
@@ -119,13 +119,13 @@ class AnswerProblem extends Component {
     }
 
     problemAnswerForm = (props) => {
-        if(props.problem == null) return null
+        if (props.problem == null) return null
         let content
-        if(props.problem.type === 1) {
-            let radios = 
+        if (props.problem.type === 1) {
+            let radios =
                 JSON.parse(props.problem.answer).map((answer) => <Radio value={answer}>{answer}</Radio>)
             content = (
-                <div>                  
+                <div>
                     <Radio.Group>
                         {radios}
                     </Radio.Group>
@@ -134,7 +134,7 @@ class AnswerProblem extends Component {
         } else {
             content = (
                 <div>
-                    <TextArea rows={4} 
+                    <TextArea rows={4}
                         onChange={(value) => {
                             this.setState({
                                 isEdit: true,
@@ -151,7 +151,7 @@ class AnswerProblem extends Component {
                     this.submitAnswerRequest(values.answer)
                 }}
             >
-                <Form.Item    
+                <Form.Item
                     name="answer"
                     rules={[
                         {
@@ -170,32 +170,37 @@ class AnswerProblem extends Component {
     }
 
     render() {
-        return(
+        return (
             <div>
                 <PageHeader
                     className="site-page-header"
                     onBack={() => this.props.history.goBack()}
                     title="试卷答题"
                     subTitle="测试试卷"
-                >              
+                >
                     <Row>
-                        <Statistic title="剩余时间" value={this.state.remainTime+'秒'} />
-                        <Statistic 
-                            title="此题用时" 
-                            value={this.state.totalTime+'秒'}
+                        <Statistic title="剩余时间" value={this.state.remainTime + '秒'} />
+                        <Statistic
+                            title="此题用时"
+                            value={this.state.totalTime + '秒'}
                             style={{
                                 margin: '0 32px',
                             }}
                         />
-                        <Statistic title="作答用时" value={this.state.editTime+'秒'} />
+                        <Statistic title="作答用时" value={this.state.editTime + '秒'} />
                     </Row>
                 </PageHeader>
-                <ProblemShow problem={this.state.answeringProblem} />
-                <this.problemAnswerForm problem={this.state.answeringProblem}/>
+                <Form
+                    name="login_login"
+                    className="login-form"
+                    onFinish={this.onFinish}
+                >
+                    <ProblemShow problem={this.state.answeringProblem} />
+                    <this.problemAnswerForm problem={this.state.answeringProblem} />
+                </Form>
             </div>
         );
     }
-
 }
 
 export default withRouter(AnswerProblem)

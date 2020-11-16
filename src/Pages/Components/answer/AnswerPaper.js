@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
 import Axios from 'axios'
-import { PageHeader, Form, Input, Button } from 'antd';
+import { PageHeader, Form, Input, Button, Descriptions } from 'antd';
 import "antd/dist/antd.css"
 import '../Common.css'
 
@@ -12,7 +12,7 @@ class AnswerPaper extends Component {
     }
 
     componentDidMount() {
-        if(this.props.history.location.paper == null) {
+        if (this.props.history.location.paper == null) {
             this.props.history.push('/searchPaper')
         }
     }
@@ -27,9 +27,9 @@ class AnswerPaper extends Component {
                     pathname: '/answerProblem',
                     paperAnswerId: res.data.object.id
                 })
-            } else if(res.data.code === 5) {
+            } else if (res.data.code === 5) {
                 alert('没找到此试卷')
-            } else if(res.data.code === 6) {
+            } else if (res.data.code === 6) {
                 alert('重新登录')
             } else {
                 alert('请求错误')
@@ -40,24 +40,24 @@ class AnswerPaper extends Component {
     }
 
     showPaperInfo = (props) => {
-        if(props.paper == null) {
+        if (props.paper == null) {
             return null;
         } else {
             return (
-                <div>
-                    <div>{props.paper.title}</div>
-                    <div>{props.paper.introduction}</div>
-                </div>
+                <Descriptions size="small" column={1}>
+                    <Descriptions.Item label="试卷标题">{props.paper.title}</Descriptions.Item>
+                    <Descriptions.Item label="试卷信息">{props.paper.introduction}</Descriptions.Item>
+                </Descriptions>
             )
         }
     }
 
     collectionForm = (props) => {
-        if(props.paper == null) {
+        if (props.paper == null) {
             return null
         } else {
             console.log(JSON.parse(props.paper.collection))
-            let formItems = JSON.parse(props.paper.collection).map((item)=>{
+            let formItems = JSON.parse(props.paper.collection).map((item) => {
                 return (
                     <Form.Item
                         name={item}
@@ -72,7 +72,7 @@ class AnswerPaper extends Component {
                         <Input />
                     </Form.Item>
                 )
-            }) 
+            })
             let onFinish = (value) => {
                 this.createPaperAnswerRequest(props.paper.id, value)
             }
@@ -93,19 +93,29 @@ class AnswerPaper extends Component {
     }
 
     render() {
-        return(
+        return (
             <div>
                 <PageHeader
                     className="site-page-header"
                     onBack={() => this.props.history.goBack()}
                     title="作答试卷"
                 />
-                <this.showPaperInfo paper={this.props.history.location.paper} />
-                <this.collectionForm paper={this.props.history.location.paper}/>
+                <Form
+                    name="login_login"
+                    className="login-form"
+                    onFinish={this.onFinish}
+                >
+                    <this.showPaperInfo
+                        paper={this.props.history.location.paper}
+                    />
+                    <this.collectionForm
+                        paper={this.props.history.location.paper}
+                    />
+                </Form>
             </div>
         );
     }
-
 }
+
 
 export default withRouter(AnswerPaper)

@@ -32,7 +32,7 @@ class Page extends Component {
             name: store.getState().name,
             type: store.getState().type
         })
-      }
+    }
 
     componentDidMount() {
         let needNotLoginpages = new Set(['/login', '/changePassword', '/register'])
@@ -40,8 +40,8 @@ class Page extends Component {
             if (res.data.code === 1) {
                 const action = handleGetUserInfAction(res.data.object, res.data.code)
                 store.dispatch(action)
-            } else if(res.data.code === 6) {
-                if(!needNotLoginpages.has(this.props.history.location.pathname)) {
+            } else if (res.data.code === 6) {
+                if (!needNotLoginpages.has(this.props.history.location.pathname)) {
                     this.props.history.push('/login')
                 }
             } else {
@@ -55,9 +55,12 @@ class Page extends Component {
     render() {
         return (
             <div>
+
                 <Layout className="layout">
                     <Header>
-                        <div className="logo" />
+                        <div className="logo">
+                            
+                        </div>
                         <div className="page-menu">
                             <UserInfoMenu name={this.state.name} type={this.state.type} history={this.props.history}></UserInfoMenu>
                         </div>
@@ -69,6 +72,7 @@ class Page extends Component {
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                 </Layout>
+
             </div>
         )
     }
