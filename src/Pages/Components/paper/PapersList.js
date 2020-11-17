@@ -5,6 +5,11 @@ import Axios from 'axios'
 
 import '../Common.css'
 
+const CREATING = 1;
+const READY_TO_ANSWERING = 2;
+const ANSWERING = 3;
+const END_ANSWER = 4;
+
 class PapersList extends Component {
 
   constructor(props) {
@@ -71,22 +76,32 @@ class PapersList extends Component {
       key: 'state',
       dataIndex: 'state',
       render: (state, record) => {
-        let isChecked
-        if (state === 2) {
+        let isChecked, newState, checkedName, unCheckedName
+        if (state === CREATING) {
           isChecked = true
+          newState = READY_TO_ANSWERING
+          checkedName = "创建中"
+          unCheckedName = "允许作答"
+        } else if(state === READY_TO_ANSWERING) {
+          isChecked = false
+          newState = CREATING
+          checkedName = "创建中"
+          unCheckedName = "允许作答"
+        } else if(state === ANSWERING) {
+          isChecked = true
+          newState = END_ANSWER
+          checkedName = "作答中"
+          unCheckedName = "停止作答"
         } else {
           isChecked = false
+          newState = ANSWERING
+          checkedName = "作答中"
+          unCheckedName = "停止作答"
         }
         return (
-          <Switch checkedChildren="开启作答" unCheckedChildren="关闭作答"
+          <Switch checkedChildren={checkedName} unCheckedChildren={unCheckedName}
             defaultChecked={isChecked}
             onChange={(checked, event) => {
-              let newState
-              if (checked == true) {
-                newState = 2
-              } else {
-                newState = 1
-              }
               Axios.post('/exam/paper/changePaperState', {
                 paperId: record.id,
                 state: newState
@@ -94,7 +109,6 @@ class PapersList extends Component {
                 .then((res) => {
                   if (res.data.code === 1) {
                     message.success('变更成功！')
-                    this.getPapersListRequest()
                   } else if (res.data.code === 6) {
                     alert('重新登录')
                   } else {
