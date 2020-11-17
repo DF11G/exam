@@ -13,7 +13,7 @@ const POLYMERIZATION_PROBLEM_TYPE = 3
 const { TextArea } = Input;
 
 class CreateProblem extends Component {
-    
+
     constructor(props) {
         super(props)
         this.state = {
@@ -27,7 +27,7 @@ class CreateProblem extends Component {
 
     onFinish = (values) => {
         let url;
-        if(values.type === POLYMERIZATION_PROBLEM_TYPE) {
+        if (values.type === POLYMERIZATION_PROBLEM_TYPE) {
             url = '/addPolymerizationProblem'
         } else {
             url = '/addProblem'
@@ -43,20 +43,20 @@ class CreateProblem extends Component {
             if (res.data.code === 1) {
                 this.props.refreshProblems()
                 this.props.visibleChange()
-            } else if(res.data.code === 5) {
-              alert('没有')
+            } else if (res.data.code === 5) {
+                alert('没有')
             } else {
-              alert('请求错误')
+                alert('请求错误')
             }
-          }).catch(() => {
+        }).catch(() => {
             alert('服务器错误')
-          })
+        })
     }
 
-    handleOk = () => { 
+    handleOk = () => {
         this.props.visibleChange()
     };
-    
+
     handleCancel = () => {
         this.props.visibleChange()
     };
@@ -95,18 +95,18 @@ class CreateProblem extends Component {
     forMap = tag => {
         const tagElem = (
             <Tag
-            closable
-            onClose={e => {
-                e.preventDefault();
-                this.handleClose(tag);
-            }}
+                closable
+                onClose={e => {
+                    e.preventDefault();
+                    this.handleClose(tag);
+                }}
             >
-            {tag}
+                {tag}
             </Tag>
         );
         return (
             <span key={tag} style={{ display: 'inline-block' }}>
-            {tagElem}
+                {tagElem}
             </span>
         );
     };
@@ -114,7 +114,7 @@ class CreateProblem extends Component {
     otherForm = (props) => {
         const { collection, inputVisible, inputValue } = this.state;
         const tagChild = collection.map(this.forMap);
-        if(props.type === CHOICE_PROBLEM_TYPE) {
+        if (props.type === CHOICE_PROBLEM_TYPE) {
             return (<Form.Item
                 label="选项"
             >
@@ -144,8 +144,8 @@ class CreateProblem extends Component {
         }
     }
 
-    problemTypeRadio= (polymerizationProblemId) => {
-        if(polymerizationProblemId != null) {
+    problemTypeRadio = (polymerizationProblemId) => {
+        if (polymerizationProblemId != null) {
             return (
                 <>
                     <Radio.Button value={CHOICE_PROBLEM_TYPE}>选择题</Radio.Button>
@@ -167,51 +167,59 @@ class CreateProblem extends Component {
         return (
             <div>
                 <Modal
-                title="创建试题"
-                visible={this.props.visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-            >
-                <Form
-                    name="create-problem-form"
-                    onFinish={this.onFinish}
+                    title="创建试题"
+                    visible={this.props.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
                 >
-                    <Form.Item 
-                        label="题目类型" 
-                        name="type"
-                        rules={[{ required: true, message: '选择要创建的题目类型' }]}
+                    <Form
+                        name="create-problem-form"
+                        onFinish={this.onFinish}
                     >
-                        <Radio.Group onChange={e => {
+                        <Form.Item
+                            label="题目类型"
+                            name="type"
+                            rules={[{ required: true, message: '选择要创建的题目类型' }]}
+                        >
+                            <Radio.Group onChange={e => {
                                 this.setState({
                                     type: e.target.value
                                 })
                             }}
+                            >
+                                {this.problemTypeRadio(this.props.polymerizationProblemId)}
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item
+                            name="title"
+                            label="题目标题"
+                            rules={[{ required: true, message: '请输入标题' }]}
                         >
-                            {this.problemTypeRadio(this.props.polymerizationProblemId)}
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        name="title"
-                        label="题目标题"
-                        rules={[{ required: true, message: '请输入标题'}]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="material"
-                        label="题目材料"
-                        rules={[{ required: true, message: '请输入材料'}]}
-                    >
-                        <TextArea rows={4} />
-                    </Form.Item>
-                    <this.otherForm type={this.state.type}></this.otherForm>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            创建试题
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="material"
+                            label="题目材料"
+                            rules={[{ required: true, message: '请输入材料' }]}
+                        >
+                            <TextArea rows={4} />
+                        </Form.Item>
+                        <Form.Item
+                            name="picture"
+                            label="图片上传"
+                            rules={[{ required: false }]}
+                        >
+                            <Input id="avatarFor" style={{ display: 'none' }} type="file" />
+                            <label style={{ textAlign: 'center', color: "#1890FF", border: "1px dashed #1890FF", padding: '3px 10px ', display: 'block' }} for="avatarFor">+点击上传图片</label>
+                        </Form.Item>
+                        <this.otherForm type={this.state.type}></this.otherForm>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                创建试题
                         </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </div>
         )
     }
