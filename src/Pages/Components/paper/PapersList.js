@@ -76,25 +76,21 @@ class PapersList extends Component {
       key: 'state',
       dataIndex: 'state',
       render: (state, record) => {
-        let isChecked, newState, checkedName, unCheckedName
+        let isChecked, checkedName, unCheckedName
         if (state === CREATING) {
           isChecked = false
-          newState = READY_TO_ANSWERING
           unCheckedName = "创建中"
           checkedName = "允许作答"
         } else if(state === READY_TO_ANSWERING) {
           isChecked = true
-          newState = CREATING
           unCheckedName = "创建中"
           checkedName = "允许作答"
         } else if(state === ANSWERING) {
           isChecked = true
-          newState = END_ANSWER
           checkedName = "作答中"
           unCheckedName = "停止作答"
         } else {
           isChecked = false
-          newState = ANSWERING
           checkedName = "作答中"
           unCheckedName = "停止作答"
         }
@@ -102,6 +98,20 @@ class PapersList extends Component {
           <Switch checkedChildren={checkedName} unCheckedChildren={unCheckedName}
             defaultChecked={isChecked}
             onChange={(checked, event) => {
+              let newState
+              if (state === CREATING || state === READY_TO_ANSWERING) {
+                if(!checked) {
+                  newState = CREATING
+                } else {
+                  newState = READY_TO_ANSWERING
+                }
+              } else {
+                if(!checked) {
+                  newState = END_ANSWER
+                } else {
+                  newState = ANSWERING
+                }
+              }
               Axios.post('/exam/paper/changePaperState', {
                 paperId: record.id,
                 state: newState
