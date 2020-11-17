@@ -78,15 +78,15 @@ class PapersList extends Component {
       render: (state, record) => {
         let isChecked, newState, checkedName, unCheckedName
         if (state === CREATING) {
-          isChecked = true
-          newState = READY_TO_ANSWERING
-          checkedName = "创建中"
-          unCheckedName = "允许作答"
-        } else if(state === READY_TO_ANSWERING) {
           isChecked = false
+          newState = READY_TO_ANSWERING
+          unCheckedName = "创建中"
+          checkedName = "允许作答"
+        } else if(state === READY_TO_ANSWERING) {
+          isChecked = true
           newState = CREATING
-          checkedName = "创建中"
-          unCheckedName = "允许作答"
+          unCheckedName = "创建中"
+          checkedName = "允许作答"
         } else if(state === ANSWERING) {
           isChecked = true
           newState = END_ANSWER
