@@ -13,18 +13,17 @@ class SearchPaper extends Component {
         super(props)
         this.state = {
             paper: null,
-            isUseful: 1
+            isUseful: 0
         }
     }
 
     searchPaperRequest = (code) => {
         Axios.get('/exam/paper/getByCode?code=' + code).then((res) => {
             if (res.data.code === 1) {
-                console.log(res)
                 this.setState({
                     paper: res.data.object
                 })
-                if (res.data.object.creator.state === 2 || res.data.object.creator.state === 3) {
+                if (res.data.object.state === 2 || res.data.object.state === 3) {
                     this.setState({
                         isUseful: 1
                     })
@@ -54,6 +53,7 @@ class SearchPaper extends Component {
             return null
         } else {
             let paper = props.paper
+            let a = this
             return (
                 <div>
                     <Row>
@@ -68,7 +68,7 @@ class SearchPaper extends Component {
                         </Col>
                         <Col span={6}>
                             <br></br>
-                            {this.props.isUseful ?
+                            {a.state.isUseful ?
                                 <Button type="primary" onClick={() => {
                                     this.props.history.push({
                                         pathname: '/answerPaper',
