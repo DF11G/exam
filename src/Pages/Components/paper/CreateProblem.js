@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-import { Button, Modal, Form, Radio, Input, Tag } from 'antd';
+import { Button, Modal, Form, Radio, Input, Tag, Upload } from 'antd';
 import "antd/dist/antd.css"
 import { PlusOutlined } from '@ant-design/icons';
 import Axios from 'axios'
@@ -12,6 +12,15 @@ const POLYMERIZATION_PROBLEM_TYPE = 3
 
 const { TextArea } = Input;
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
 class CreateProblem extends Component {
 
     constructor(props) {
@@ -21,6 +30,10 @@ class CreateProblem extends Component {
             collection: ['姓名'],
             inputVisible: false,
             inputValue: '',
+            previewVisible: false,
+            previewImage: '',
+            previewTitle: '',
+            fileList: []
         }
     }
 
@@ -163,7 +176,32 @@ class CreateProblem extends Component {
         }
     }
 
+
+
+    handleCancel = () => this.setState({ previewVisible: false });
+
+    handlePreview = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+
+        this.setState({
+            previewImage: file.url || file.preview,
+            previewVisible: true,
+            previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+        });
+    };
+
+    handleChange = ({ fileList }) => this.setState({ fileList });
+
     render() {
+        const { previewVisible, previewImage, fileList, previewTitle } = this.state;
+        const uploadButton = (
+            <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+            </div>
+        );
         return (
             <div>
                 <Modal
@@ -209,8 +247,25 @@ class CreateProblem extends Component {
                             label="图片上传"
                             rules={[{ required: false }]}
                         >
-                            <Input id="avatarFor" style={{ display: 'none' }} type="file" />
-                            <label style={{ textAlign: 'center', color: "#1890FF", border: "1px dashed #1890FF", padding: '3px 10px ', display: 'block' }} for="avatarFor">+点击上传图片</label>
+                            <div>
+                                <Upload
+                                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                    listType="picture-card"
+                                    fileList={fileList}
+                                    onPreview={this.handlePreview}
+                                    onChange={this.handleChange}
+                                >
+                                    {fileList.length >= 8 ? null : uploadButton}
+                                </Upload>
+                                <Modal
+                                    visible={previewVisible}
+                                    title={previewTitle}
+                                    footer={null}
+                                    onCancel={this.handleCancel}
+                                >
+                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                                </Modal>
+                            </div>
                         </Form.Item>
                         <this.otherForm type={this.state.type}></this.otherForm>
                         <Form.Item>
