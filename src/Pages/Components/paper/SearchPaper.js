@@ -12,16 +12,27 @@ class SearchPaper extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            paper: null
+            paper: null,
+            isUseful: 1
         }
     }
 
     searchPaperRequest = (code) => {
         Axios.get('/exam/paper/getByCode?code=' + code).then((res) => {
             if (res.data.code === 1) {
+                console.log(res)
                 this.setState({
                     paper: res.data.object
                 })
+                if (res.data.object.creator.state === 2 || res.data.object.creator.state === 3) {
+                    this.setState({
+                        isUseful: 1
+                    })
+                } else {
+                    this.setState({
+                        isUseful: 0
+                    })
+                }
             } else if (res.data.code === 5) {
                 alert('没找到此试卷')
             } else if (res.data.code === 6) {
@@ -57,14 +68,18 @@ class SearchPaper extends Component {
                         </Col>
                         <Col span={6}>
                             <br></br>
-                            <Button type="primary" onClick={() => {
-                                this.props.history.push({
-                                    pathname: '/answerPaper',
-                                    paper: this.state.paper
-                                })
-                            }}>
-                                开始作答
-                            </Button>
+                            {this.props.isUseful ?
+                                <Button type="primary" onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/answerPaper',
+                                        paper: this.state.paper
+                                    })
+                                }}>开始作答</Button> : <Button type="primary" disabled onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/answerPaper',
+                                        paper: this.state.paper
+                                    })
+                                }}>试卷已过期</Button>}
                         </Col>
                     </Row>
                 </div>
