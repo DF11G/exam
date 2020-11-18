@@ -70,6 +70,7 @@ class AnswerProblem extends Component {
                     this.setState({
                         answeringProblem: res.data.object,
                         totalTime: 0,
+                        editTime: 0,
                         isEdit: false
                     })
                 } else {
