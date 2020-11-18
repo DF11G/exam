@@ -5,6 +5,11 @@ import Axios from 'axios'
 
 import '../Common.css'
 
+const CREATING = 1;
+const READY_TO_ANSWERING = 2;
+const ANSWERING = 3;
+const END_ANSWER = 4;
+
 class PapersList extends Component {
 
   constructor(props) {
@@ -71,21 +76,41 @@ class PapersList extends Component {
       key: 'state',
       dataIndex: 'state',
       render: (state, record) => {
-        let isChecked
-        if (state === 2) {
+        let isChecked, checkedName, unCheckedName
+        if (state === CREATING) {
+          isChecked = false
+          unCheckedName = "创建中"
+          checkedName = "允许作答"
+        } else if(state === READY_TO_ANSWERING) {
           isChecked = true
+          unCheckedName = "创建中"
+          checkedName = "允许作答"
+        } else if(state === ANSWERING) {
+          isChecked = true
+          checkedName = "作答中"
+          unCheckedName = "停止作答"
         } else {
           isChecked = false
+          checkedName = "作答中"
+          unCheckedName = "停止作答"
         }
         return (
-          <Switch checkedChildren="开启作答" unCheckedChildren="关闭作答"
+          <Switch checkedChildren={checkedName} unCheckedChildren={unCheckedName}
             defaultChecked={isChecked}
             onChange={(checked, event) => {
               let newState
-              if (checked == true) {
-                newState = 2
+              if (state === CREATING || state === READY_TO_ANSWERING) {
+                if(!checked) {
+                  newState = CREATING
+                } else {
+                  newState = READY_TO_ANSWERING
+                }
               } else {
-                newState = 1
+                if(!checked) {
+                  newState = END_ANSWER
+                } else {
+                  newState = ANSWERING
+                }
               }
               Axios.post('/exam/paper/changePaperState', {
                 paperId: record.id,
@@ -94,7 +119,6 @@ class PapersList extends Component {
                 .then((res) => {
                   if (res.data.code === 1) {
                     message.success('变更成功！')
-                    this.getPapersListRequest()
                   } else if (res.data.code === 6) {
                     alert('重新登录')
                   } else {
